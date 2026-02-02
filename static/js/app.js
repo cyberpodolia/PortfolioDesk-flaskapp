@@ -49,7 +49,8 @@ function initWindows() {
                 }
             })
             .resizable({
-                edges: { left: true, right: true, bottom: true, top: true },
+                edges: { left: true, right: true, bottom: true, top: false },
+                ignoreFrom: '.widget__title, input, textarea, button, select, a',
                 modifiers: [
                     interact.modifiers.restrictSize({
                         min: { width: 200, height: 150 }

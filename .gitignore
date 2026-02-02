@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-wheel-metadata/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.sqlite3
