@@ -1,0 +1,374 @@
+:root {
+  color-scheme: dark;
+  --bg: #1a1a1a;
+  --panel: #2c2c2c;
+  --panel-accent: #3a3a3a;
+  --text: #f0f0f0;
+  --muted: #a7b2c6;
+  --accent: #888;
+  --accent-strong: #aaa;
+  --border: #444;
+  --border-strong: #666;
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.app__header h1 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.app__header p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.app__controls {
+  display: flex;
+  gap: 4px;
+}
+
+button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  background: var(--panel-accent);
+  border-color: var(--border-strong);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Desktop (Windows container) */
+.desktop {
+  position: relative;
+  flex: 1;
+  background: transparent;
+  overflow: auto; /* Allow scrolling if windows go beyond viewport */
+  min-height: 600px;
+  min-width: 1280px; /* Ensure minimum width for window layout */
+}
+
+/* Window (free-floating) */
+.window {
+  position: absolute;
+  touch-action: none;
+  user-select: none;
+}
+
+/* Widget */
+.widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+/* Active window (Windows-like) */
+.window.active-window .widget {
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.window.active-window .widget__title {
+  background: var(--border-strong);
+}
+
+.widget__title {
+  background: var(--panel-accent);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.widget__body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+/* Text Widget */
+.text-widget p {
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.text-widget strong {
+  font-weight: 600;
+}
+
+.text-widget em {
+  font-style: italic;
+}
+
+/* Video Widget */
+.video-widget {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.video-widget iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius);
+}
+
+/* Links Widget */
+.links-widget ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links-widget li {
+  margin-bottom: 8px;
+}
+
+.links-widget a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.links-widget a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+/* Repo Widget */
+.repo-widget__description {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.repo-widget__section {
+  margin-bottom: 12px;
+}
+
+.repo-widget__section h4 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.repo-widget__section ul {
+  list-style: disc;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.repo-widget__section li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.repo-widget__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--panel-accent);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: var(--radius);
+}
+
+.repo-widget__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.repo-widget__actions a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 12px;
+  transition: color 0.15s;
+}
+
+.repo-widget__actions a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+/* Chat Widget */
+.chat-widget form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+
+.chat-widget__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.chat-widget label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.chat-widget input,
+.chat-widget textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  border-radius: var(--radius);
+  transition: border-color 0.15s;
+}
+
+.chat-widget input:focus,
+.chat-widget textarea:focus {
+  outline: none;
+  border-color: var(--border-strong);
+}
+
+.chat-widget__message {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-widget__message textarea {
+  flex: 1;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.chat-widget__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-widget__status {
+  font-size: 11px;
+  flex: 1;
+}
+
+.chat-widget__status--idle {
+  color: var(--muted);
+}
+
+.chat-widget__status--sending {
+  color: var(--accent);
+}
+
+.chat-widget__status--sent {
+  color: #4ade80;
+}
+
+.chat-widget__status--error {
+  color: #ef4444;
+}
+
+/* Scrollbar */
+.widget__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.widget__body::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+.widget__body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius);
+}
+
+.widget__body::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* Interact.js handles */
+.window {
+  box-sizing: border-box;
+}
+
+/* Dragging cursor */
+.widget__title {
+  cursor: move;
+  cursor: grab;
+}
+
+.widget__title:active,
+.window.dragging .widget__title {
+  cursor: grabbing !important;
+}
+
+/* Resizing visuals */
+.window.resizing {
+  opacity: 0.9;
+}
