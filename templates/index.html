@@ -47,10 +47,10 @@
                     <div class="widget__title">CV & Links</div>
                     <div class="widget__body links-widget">
                         <ul>
-                            <li><a href="https://github.com/user" target="_blank" rel="noreferrer">GitHub</a></li>
+                            <li><a href="https://github.com/cyberpodolia" target="_blank" rel="noreferrer">GitHub</a></li>
                             <li><a href="https://linkedin.com/in/user" target="_blank" rel="noreferrer">LinkedIn</a></li>
                             <li><a href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a></li>
-                            <li><a href="mailto:email@example.com">Email</a></li>
+                            <li><a href="mailto:cyberpodolia@proton.me">Email</a></li>
                         </ul>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
             </div>
 
             <!-- Quick Links (right middle) -->
-            <div class="window" data-id="quick-links" style="left: 960px; top: 230px; width: 260px; height: 220px;">
+            <div class="window" data-id="quick-links" style="left: 960px; top: 230px; width: 260px; height: 240px;">
                 <div class="widget">
                     <div class="widget__title">Quick Links</div>
                     <div class="widget__body links-widget">
@@ -114,28 +114,28 @@
             <!-- Project 1 (bottom row) -->
             <div class="window" data-id="project1" style="left: 10px; top: 460px; width: 280px; height: 340px;">
                 <div class="widget">
-                    <div class="widget__title">Project: E-commerce Platform</div>
+                    <div class="widget__title">Webhook Relay API</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Full-featured e-commerce platform with payment integration.</p>
+                        <p class="repo-widget__description">A small FastAPI service that accepts webhooks, normalizes events, stores them, and optionally relays them to a target URL.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Payment gateway</li>
-                                <li>User authentication</li>
-                                <li>Admin dashboard</li>
+                                <li>Structured logging with request IDs</li>
+                                <li>Webhook normalization and storage</li>
+                                <li>Optional outbound relay with retries</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Stack</h4>
                             <div class="repo-widget__tags">
-                                <span class="tag">Django</span>
-                                <span class="tag">React</span>
-                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">FastAPI</span>
+                                <span class="tag">SQLAlchemy</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">pytest</span>
                             </div>
                         </div>
                         <div class="repo-widget__actions">
-                            <a href="https://github.com/user/ecommerce" target="_blank">GitHub</a>
-                            <a href="https://demo.example.com" target="_blank">Demo</a>
+                            <a href="https://github.com/cyberpodolia/webhook-relay-api" target="_blank" rel="noreferrer">GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -144,28 +144,27 @@
             <!-- Project 2 (bottom row) -->
             <div class="window" data-id="project2" style="left: 300px; top: 460px; width: 280px; height: 340px;">
                 <div class="widget">
-                    <div class="widget__title">Project: Data Analytics</div>
+                    <div class="widget__title">QA Automation Suite</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Real-time analytics dashboard with data visualization.</p>
+                        <p class="repo-widget__description">Small UI automation suite using Playwright + pytest against a stable demo site.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Real-time updates</li>
-                                <li>Custom charts</li>
-                                <li>Export reports</li>
+                                <li>Playwright UI automation with a simple Page Object</li>
+                                <li>Stable selectors and explicit expectations</li>
+                                <li>HTML reporting and CI artifacts</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Stack</h4>
                             <div class="repo-widget__tags">
-                                <span class="tag">Flask</span>
-                                <span class="tag">D3.js</span>
-                                <span class="tag">Redis</span>
+                                <span class="tag">Playwright</span>
+                                <span class="tag">pytest</span>
+                                <span class="tag">Python</span>
                             </div>
                         </div>
                         <div class="repo-widget__actions">
-                            <a href="https://github.com/user/analytics" target="_blank">GitHub</a>
-                            <a href="https://demo.example.com" target="_blank">Demo</a>
+                            <a href="https://github.com/cyberpodolia/qa-playwright-pytest" target="_blank" rel="noreferrer">GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -174,28 +173,27 @@
             <!-- Project 3 (bottom row) -->
             <div class="window" data-id="project3" style="left: 590px; top: 460px; width: 280px; height: 340px;">
                 <div class="widget">
-                    <div class="widget__title">Project: Mobile API</div>
+                    <div class="widget__title">Asset Scan CLI</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">RESTful API backend for iOS and Android apps.</p>
+                        <p class="repo-widget__description">A small CLI tool that scans a directory, applies naming rules, and writes a JSON report.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>JWT authentication</li>
-                                <li>Push notifications</li>
-                                <li>Cloud storage</li>
+                                <li>Practical CLI design with Typer</li>
+                                <li>File system scanning and reporting</li>
+                                <li>Clear exit codes for automation</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Stack</h4>
                             <div class="repo-widget__tags">
-                                <span class="tag">FastAPI</span>
-                                <span class="tag">MongoDB</span>
-                                <span class="tag">AWS</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Typer</span>
+                                <span class="tag">pytest</span>
                             </div>
                         </div>
                         <div class="repo-widget__actions">
-                            <a href="https://github.com/user/mobile-api" target="_blank">GitHub</a>
-                            <a href="https://docs.example.com" target="_blank">Docs</a>
+                            <a href="https://github.com/cyberpodolia/Asset-Scan-CLI" target="_blank" rel="noreferrer">GitHub</a>
                         </div>
                     </div>
                 </div>
