@@ -272,15 +272,17 @@
                 <div class="widget">
                     <div class="widget__title">Local Planner</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Local planner with FastAPI backend, Telegram alarms, and a simple web board UI.</p>
+                        <p class="repo-widget__description">Local-first planner for Windows: FastAPI + SQLite + scheduler with a Kanban board, task detail pages, and START-only Telegram alerts.</p>
                         <div class="repo-widget__section">
                             <h4>Key features</h4>
                             <ul>
-                                <li>Telegram alerts only on START with concise summaries</li>
-                                <li>Summary vs full description support</li>
-                                <li>Comments and last notes visible in API/UI</li>
-                                <li>Local web board and task detail views</li>
-                                <li>Task links and deliverables in the data model</li>
+                                <li>START-only Telegram alerts with concise summaries (no spam)</li>
+                                <li>Summary (<=120 chars) vs full description (task pages with rich details)</li>
+                                <li>Task lifecycle: Planned / Active / Done / Overdue + last note visibility</li>
+                                <li>KPI panel for last N days (done/cancelled/failed/overdue + minutes + score)</li>
+                                <li>Replace-day workflow: AI/CLI can rewrite a day plan atomically (no append bloat)</li>
+                                <li>Task acknowledgements with comments stored and visible in UI/API</li>
+                                <li>Localhost-only (127.0.0.1), no cloud dependencies</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
