@@ -11,7 +11,7 @@ app = Flask(__name__)
 APP_DIR = os.path.dirname(os.path.abspath(__file__))  # flask_app/
 PUBLIC_HTML_DIR = os.path.dirname(APP_DIR)  # public_html/
 CYBERPODOLIA_DIR = os.path.dirname(PUBLIC_HTML_DIR)  # cyberpodolia.pl/
-SECRETS_PATH = os.path.join(CYBERPODOLIA_DIR, 'telegram_secret.php')
+SECRETS_PATH = os.getenv("TELEGRAM_SECRETS_PATH", "/opt/tg/telegram_secret.php")
 
 def load_telegram_config():
     """Parse PHP config file to get Telegram credentials"""
