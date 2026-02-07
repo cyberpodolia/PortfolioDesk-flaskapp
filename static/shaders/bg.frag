@@ -17,7 +17,7 @@ const float minorLineFrequency= 1.0;
 const vec4  gridColor         = vec4(0.5);
 
 const float scale             = 5.0;
-const vec4  lineColor         = vec4(0.25, 0.5, 1.0, 1.0);
+const vec4  lineColor         = vec4(0.25, 0.5, 0.6, 0.7);
 
 const float minLineWidth      = 0.02;
 const float maxLineWidth      = 0.5;
