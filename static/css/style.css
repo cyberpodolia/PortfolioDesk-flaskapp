@@ -24,11 +24,33 @@ body {
   font-size: 13px;
 }
 
+.no-webgl body,
+body.no-webgl {
+  background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(79, 94, 142, 0.35), transparent 60%),
+    radial-gradient(900px 700px at 90% 20%, rgba(52, 122, 108, 0.25), transparent 55%),
+    radial-gradient(800px 600px at 70% 90%, rgba(120, 70, 130, 0.2), transparent 60%),
+    linear-gradient(140deg, #151922 0%, #1c202b 45%, #141922 100%);
+  background-attachment: fixed;
+}
+
+#bg-webgl {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 4px;
+  position: relative;
+  z-index: 10;
 }
 
 .app__header {
