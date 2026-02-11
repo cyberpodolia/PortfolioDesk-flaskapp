@@ -234,7 +234,7 @@
             </div>
 
             <!-- About This Site (bottom row, full width) -->
-            <div class="window" data-id="site" style="left: 10px; top: 820px; width: 600px; height: 260px;">
+            <div class="window" data-id="site" style="left: 10px; top: 820px; width: 600px; height: 320px;">
                 <div class="widget">
                     <div class="widget__title">About This Site</div>
                     <div class="widget__body repo-widget">
@@ -267,10 +267,16 @@
             </div>
 
             <!-- Local Planner (bottom row, full width) -->
-            <div class="window" data-id="planner" style="left: 620px; top: 820px; width: 600px; height: 260px;">
+            <div class="window" data-id="planner" style="left: 620px; top: 820px; width: 600px; height: 320px;">
                 <div class="widget">
                     <div class="widget__title">Local Planner</div>
                     <div class="widget__body repo-widget">
+                        <div class="repo-widget__media">
+                            <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/local_planer_01.jpg') }}">
+                                <img src="{{ url_for('static', filename='img/local_planer_01.jpg') }}" alt="Local Planner board screenshot">
+                            </button>
+                            <span class="repo-widget__media-hint">Click to enlarge</span>
+                        </div>
                         <p class="repo-widget__description">Local-first planner for Windows: FastAPI + SQLite + scheduler with a Kanban board, task detail pages, and Telegram alerts.</p>
                         <div class="repo-widget__section">
                             <h4>Key features</h4>
@@ -303,7 +309,7 @@
             </div>
 
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 10px; top: 1100px; width: 600px; height: 340px;">
+            <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 360px;">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI</div>
                     <div class="widget__body repo-widget">
@@ -333,7 +339,7 @@
             </div>
 
             <!-- SmallSR (new row) -->
-            <div class="window" data-id="smallsr" style="left: 620px; top: 1100px; width: 600px; height: 340px;">
+            <div class="window" data-id="smallsr" style="left: 620px; top: 1150px; width: 600px; height: 360px;">
                 <div class="widget">
                     <div class="widget__title">SmallSR</div>
                     <div class="widget__body repo-widget">
@@ -367,7 +373,7 @@
             </div>
 
             <!-- Realtime Faceghosting (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 10px; top: 1460px; width: 600px; height: 340px;">
+            <div class="window" data-id="faceghosting" style="left: 10px; top: 1520px; width: 600px; height: 320px;">
                 <div class="widget">
                     <div class="widget__title">Realtime Faceghosting</div>
                     <div class="widget__body repo-widget">
@@ -395,6 +401,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="image-overlay" class="image-overlay" aria-hidden="true">
+        <img id="image-overlay-img" alt="">
     </div>
 
     <!-- Interact.js for free window movement -->

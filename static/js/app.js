@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadWindowPositions();
     setupButtons();
     setupContactForm();
+    setupImageOverlay();
     initWebGLBackground();
 });
 
@@ -242,6 +243,45 @@ function setupContactForm() {
             setStatus('error', 'Network error. Please try again.');
         } finally {
             sendBtn.disabled = false;
+        }
+    });
+}
+
+function setupImageOverlay() {
+    const overlay = document.getElementById('image-overlay');
+    const overlayImg = document.getElementById('image-overlay-img');
+    if (!overlay || !overlayImg) return;
+
+    const openOverlay = (src, alt) => {
+        overlayImg.src = src;
+        overlayImg.alt = alt || 'Screenshot';
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+    };
+
+    const closeOverlay = () => {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        overlayImg.src = '';
+        overlayImg.alt = '';
+    };
+
+    document.querySelectorAll('[data-overlay-src]').forEach((thumb) => {
+        thumb.addEventListener('click', (event) => {
+            event.preventDefault();
+            const src = thumb.getAttribute('data-overlay-src');
+            const img = thumb.querySelector('img');
+            openOverlay(src, img ? img.alt : 'Screenshot');
+        });
+    });
+
+    overlay.addEventListener('click', () => {
+        closeOverlay();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            closeOverlay();
         }
     });
 }
