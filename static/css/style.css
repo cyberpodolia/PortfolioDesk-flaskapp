@@ -229,6 +229,13 @@ button:disabled {
   margin: 0 0 12px;
 }
 
+.repo-widget__media iframe {
+  display: block;
+  background: #000;
+  border: 0;
+  border-radius: var(--radius);
+}
+
 .repo-widget__thumb {
   background: transparent;
   border: 1px solid var(--border);
