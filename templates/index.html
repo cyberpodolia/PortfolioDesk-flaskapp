@@ -111,7 +111,7 @@
             </div>
 
             <!-- Project 1 (bottom row) -->
-            <div class="window" data-id="project1" style="left: 10px; top: 460px; width: 280px; height: 340px; z-index: 142;">
+            <div class="window" data-id="project1" style="left: 10px; top: 460px; width: 280px; height: 340px; z-index: 104;">
                 <div class="widget">
                     <div class="widget__title">Webhook Relay API</div>
                     <div class="widget__body repo-widget">
@@ -141,7 +141,7 @@
             </div>
 
             <!-- Project 2 (bottom row) -->
-            <div class="window" data-id="project2" style="left: 300px; top: 460px; width: 280px; height: 340px; z-index: 141;">
+            <div class="window" data-id="project2" style="left: 300px; top: 460px; width: 280px; height: 340px; z-index: 105;">
                 <div class="widget">
                     <div class="widget__title">QA Automation Suite</div>
                     <div class="widget__body repo-widget">
@@ -170,7 +170,7 @@
             </div>
 
             <!-- Project 3 (bottom row) -->
-            <div class="window" data-id="project3" style="left: 590px; top: 460px; width: 280px; height: 340px; z-index: 143;">
+            <div class="window" data-id="project3" style="left: 590px; top: 460px; width: 280px; height: 340px; z-index: 106;">
                 <div class="widget">
                     <div class="widget__title">Asset Scan CLI</div>
                     <div class="widget__body repo-widget">
@@ -234,7 +234,7 @@
             </div>
 
             <!-- About This Site (bottom row, full width) -->
-            <div class="window" data-id="site" style="left: 10px; top: 820px; width: 600px; height: 320px; z-index: 147;">
+            <div class="window" data-id="site" style="left: 10px; top: 820px; width: 600px; height: 320px; z-index: 108;">
                 <div class="widget">
                     <div class="widget__title">About This Site</div>
                     <div class="widget__body repo-widget">
@@ -267,15 +267,24 @@
             </div>
 
             <!-- Local Planner (bottom row, full width) -->
-            <div class="window" data-id="planner" style="left: 620px; top: 820px; width: 600px; height: 432.5px; z-index: 112;">
+            <div class="window" data-id="planner" style="left: 620px; top: 820px; width: 600px; height: 432.5px; z-index: 109;">
                 <div class="widget">
                     <div class="widget__title">Local Planner</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/local_planer_01.jpg') }}">
-                                <img src="{{ url_for('static', filename='img/local_planer_01.jpg') }}" alt="Local Planner board screenshot">
-                            </button>
-                            <span class="repo-widget__media-hint">Click to enlarge</span>
+                            <iframe src="https://player.vimeo.com/video/1164338850?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                    width="324"
+                                    height="180"
+                                    frameborder="0"
+                                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    title="localplaner_placeholder_010001-1818"></iframe>
+                            <div>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/local_planer_01.jpg') }}">
+                                    <img src="{{ url_for('static', filename='img/local_planer_01.jpg') }}" alt="Local Planner board screenshot">
+                                </button>
+                                <span class="repo-widget__media-hint">Click to enlarge</span>
+                            </div>
                         </div>
                         <p class="repo-widget__description">Local-first planner for Windows: FastAPI + SQLite + scheduler with a Kanban board, task detail pages, and Telegram alerts.</p>
                         <div class="repo-widget__section">
@@ -309,7 +318,7 @@
             </div>
 
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 455.625px; z-index: 153;">
+            <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 455.625px; z-index: 110;">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI</div>
                     <div class="widget__body repo-widget">
@@ -382,7 +391,7 @@
             </div>
 
             <!-- Realtime Faceghosting (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 11.875px; top: 1624.38px; width: 600px; height: 320px; z-index: 137;" data-x="11.875" data-y="1624.375">
+            <div class="window" data-id="faceghosting" style="left: 11.875px; top: 1624.38px; width: 600px; height: 320px; z-index: 112;" data-x="11.875" data-y="1624.375">
                 <div class="widget">
                     <div class="widget__title">Realtime Faceghosting</div>
                     <div class="widget__body repo-widget">

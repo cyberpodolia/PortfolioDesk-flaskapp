@@ -462,3 +462,51 @@ button:disabled {
 .window.resizing {
   opacity: 0.9;
 }
+
+@media (max-width: 900px) {
+  .desktop {
+    min-width: 0 !important;
+    min-height: auto;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .window {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 14px;
+    touch-action: auto;
+    user-select: auto;
+  }
+
+  .widget {
+    height: auto;
+  }
+
+  .video-widget {
+    height: auto;
+  }
+
+  .video-widget iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .repo-widget__media {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repo-widget__media iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .repo-widget__thumb img {
+    width: 100%;
+    height: auto;
+  }
+}

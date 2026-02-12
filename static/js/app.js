@@ -1,14 +1,28 @@
 // Free-floating Windows system with interact.js
-const STORAGE_KEY = 'cyberpodolia_windows_v1';
+const STORAGE_KEY_DESKTOP = 'cyberpodolia_windows_v1';
+const STORAGE_KEY_MOBILE = 'cyberpodolia_windows_mobile_v1';
+const MOBILE_BREAKPOINT = 900;
+const layoutQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+const isMobile = layoutQuery.matches;
 let topZIndex = 100;
+let allowSave = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    initWindows();
-    loadWindowPositions();
+    if (!isMobile) {
+        allowSave = false;
+        initWindows();
+        const loaded = loadWindowPositions();
+        if (!loaded) {
+            scheduleCenterWindowsGroup();
+        } else {
+            allowSave = true;
+        }
+    }
     setupButtons();
     setupContactForm();
     setupImageOverlay();
     initWebGLBackground();
+    setupBreakpointReload();
 });
 
 function initWindows() {
@@ -112,6 +126,7 @@ function bringToFront(win) {
 }
 
 function saveWindowPositions() {
+    if (isMobile || !allowSave) return;
     const windows = {};
     document.querySelectorAll('.window').forEach(win => {
         const id = win.dataset.id;
@@ -123,15 +138,19 @@ function saveWindowPositions() {
             zIndex: win.style.zIndex
         };
     });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ windows, topZIndex }));
+    localStorage.setItem(STORAGE_KEY_DESKTOP, JSON.stringify({ windows, topZIndex }));
 }
 
 function loadWindowPositions() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
+    if (isMobile) return false;
+    const saved = localStorage.getItem(STORAGE_KEY_DESKTOP);
+    if (!saved) return false;
 
     try {
         const data = JSON.parse(saved);
+        if (!data || !data.windows || typeof data.windows !== 'object') {
+            return false;
+        }
         topZIndex = data.topZIndex || 100;
 
         document.querySelectorAll('.window').forEach(win => {
@@ -145,21 +164,34 @@ function loadWindowPositions() {
                 win.style.zIndex = pos.zIndex;
             }
         });
+        return Object.keys(data.windows).length > 0;
     } catch (e) {
         console.error('Failed to load window positions:', e);
+        return false;
     }
 }
 
 function setupButtons() {
     document.getElementById('reset-btn').addEventListener('click', () => {
         if (confirm('Reset all windows to default positions?')) {
-            localStorage.removeItem(STORAGE_KEY);
-            location.reload();
+            if (isMobile) {
+                localStorage.removeItem(STORAGE_KEY_MOBILE);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            localStorage.removeItem(STORAGE_KEY_DESKTOP);
+            allowSave = false;
+            centerWindowsGroup();
+            allowSave = true;
         }
     });
 
     document.getElementById('share-btn').addEventListener('click', () => {
-        const data = localStorage.getItem(STORAGE_KEY);
+        if (isMobile) {
+            alert('Sharing is available on desktop layouts only.');
+            return;
+        }
+        const data = localStorage.getItem(STORAGE_KEY_DESKTOP);
         if (!data) {
             alert('No custom layout to share');
             return;
@@ -475,10 +507,87 @@ window.addEventListener('load', () => {
     if (encoded) {
         try {
             const data = atob(encoded);
-            localStorage.setItem(STORAGE_KEY, data);
+            if (isMobile) return;
+            localStorage.setItem(STORAGE_KEY_DESKTOP, data);
             location.reload();
         } catch (e) {
             console.error('Failed to load layout from URL:', e);
         }
     }
 });
+
+function scheduleCenterWindowsGroup() {
+    allowSave = false;
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            centerWindowsGroup();
+            allowSave = true;
+        });
+    });
+}
+
+function centerWindowsGroup() {
+    if (isMobile) return;
+    const desktop = document.querySelector('.desktop');
+    if (!desktop) return;
+    const windows = Array.from(document.querySelectorAll('.window'));
+    if (windows.length === 0) return;
+
+    const padding = 16;
+    const desktopWidth = desktop.clientWidth;
+    const desktopHeight = Math.max(desktop.clientHeight, window.innerHeight - desktop.getBoundingClientRect().top);
+
+    const getWindowSize = (win) => {
+        const rect = win.getBoundingClientRect();
+        const width = rect.width || parseFloat(win.style.width) || 280;
+        const height = rect.height || parseFloat(win.style.height) || 200;
+        return { width, height };
+    };
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    windows.forEach((win) => {
+        const { width, height } = getWindowSize(win);
+        const left = parseFloat(win.style.left) || 0;
+        const top = parseFloat(win.style.top) || 0;
+        minX = Math.min(minX, left);
+        minY = Math.min(minY, top);
+        maxX = Math.max(maxX, left + width);
+        maxY = Math.max(maxY, top + height);
+    });
+
+    const groupWidth = maxX - minX;
+    const groupHeight = maxY - minY;
+    const offsetX = Math.round((desktopWidth - groupWidth) / 2 - minX);
+    const offsetY = 0;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    windows.forEach((win) => {
+        const { width, height } = getWindowSize(win);
+        const currentLeft = parseFloat(win.style.left) || 0;
+        const currentTop = parseFloat(win.style.top) || 0;
+        const maxLeft = Math.max(padding, desktopWidth - width - padding);
+        const nextLeft = clamp(currentLeft + offsetX, padding, maxLeft);
+        const nextTop = currentTop + offsetY;
+
+        win.style.left = `${nextLeft}px`;
+        win.style.top = `${nextTop}px`;
+        win.setAttribute('data-x', nextLeft);
+        win.setAttribute('data-y', nextTop);
+    });
+}
+
+function setupBreakpointReload() {
+    const handler = () => {
+        window.location.reload();
+    };
+    if (layoutQuery.addEventListener) {
+        layoutQuery.addEventListener('change', handler);
+    } else if (layoutQuery.addListener) {
+        layoutQuery.addListener(handler);
+    }
+}
