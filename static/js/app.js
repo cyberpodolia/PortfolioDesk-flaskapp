@@ -6,8 +6,10 @@ const layoutQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
 const isMobile = layoutQuery.matches;
 let topZIndex = 100;
 let allowSave = false;
+let defaultLayout = {};
 
 document.addEventListener('DOMContentLoaded', () => {
+    cacheDefaultLayout();
     if (!isMobile) {
         allowSave = false;
         initWindows();
@@ -24,6 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
     initWebGLBackground();
     setupBreakpointReload();
 });
+
+function cacheDefaultLayout() {
+    const layout = {};
+    document.querySelectorAll('.window').forEach((win) => {
+        const id = win.dataset.id;
+        layout[id] = {
+            left: win.style.left || '',
+            top: win.style.top || '',
+            width: win.style.width || '',
+            height: win.style.height || '',
+            zIndex: win.style.zIndex || ''
+        };
+    });
+    defaultLayout = layout;
+}
 
 function initWindows() {
     const windows = document.querySelectorAll('.window');
@@ -181,6 +198,7 @@ function setupButtons() {
             }
             localStorage.removeItem(STORAGE_KEY_DESKTOP);
             allowSave = false;
+            restoreDefaultLayout();
             centerWindowsGroup();
             allowSave = true;
         }
@@ -277,6 +295,27 @@ function setupContactForm() {
             sendBtn.disabled = false;
         }
     });
+}
+
+function restoreDefaultLayout() {
+    let maxZ = 100;
+    document.querySelectorAll('.window').forEach((win) => {
+        const id = win.dataset.id;
+        const defaults = defaultLayout[id];
+        if (!defaults) return;
+        win.style.left = defaults.left;
+        win.style.top = defaults.top;
+        win.style.width = defaults.width;
+        win.style.height = defaults.height;
+        win.style.zIndex = defaults.zIndex;
+        win.setAttribute('data-x', defaults.left ? parseFloat(defaults.left) : 0);
+        win.setAttribute('data-y', defaults.top ? parseFloat(defaults.top) : 0);
+        const z = parseFloat(defaults.zIndex);
+        if (!Number.isNaN(z)) {
+            maxZ = Math.max(maxZ, z);
+        }
+    });
+    topZIndex = maxZ;
 }
 
 function setupImageOverlay() {
