@@ -118,5 +118,5 @@ void main() {
 
   fragColor += lines;
 
-  gl_FragColor = fragColor;
+  gl_FragColor = fragColor * 0.5;
 }
