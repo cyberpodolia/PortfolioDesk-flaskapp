@@ -200,7 +200,8 @@ button:disabled {
   flex: 1;
 }
 
-.video-widget iframe {
+.video-widget iframe,
+.video-widget .video-player {
   width: 100%;
   height: 100%;
   border: none;
