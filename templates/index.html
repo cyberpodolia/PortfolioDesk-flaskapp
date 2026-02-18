@@ -66,7 +66,7 @@
                 <div class="widget">
                     <div class="widget__title">Video Introduction</div>
                     <div class="widget__body video-widget">
-                        <video class="video-player" controls preload="metadata" playsinline>
+                        <video class="video-player" controls preload="metadata" playsinline poster="{{ url_for('static', filename='video/v11_poster.jpg') }}">
                             <source src="{{ url_for('static', filename='video/v11.mp4') }}" type="video/mp4">
                         </video>
                     </div>
@@ -447,5 +447,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
 
 
