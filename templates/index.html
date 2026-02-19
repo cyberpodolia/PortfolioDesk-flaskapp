@@ -285,19 +285,25 @@
                                 <span class="repo-widget__media-hint">Click to enlarge</span>
                             </div>
                         </div>
-                        <p class="repo-widget__description">Local-first planner for Windows: FastAPI + SQLite + scheduler with a Kanban board, task detail pages, and Telegram alerts.</p>
+                        <p class="repo-widget__description">Local-first daily planner for Windows. Runs fully on localhost (127.0.0.1) with FastAPI + SQLite and a built-in scheduler. Optimized for daily execution, KPI visibility, and AI-assisted planning via a pluggable LLM layer - local models first, with cloud LLMs optional.</p>
                         <div class="repo-widget__section">
                             <h4>Key features</h4>
                             <ul>
-                               
-                                <li>Summary (<=120 chars) vs full description (task pages with rich details)</li>
-                                <li>Task lifecycle: Planned / Active / Done / Overdue + last note visibility</li>
-                                <li>KPI panel for last N days (done/cancelled/failed/overdue + minutes + score)</li>
-                                <li>Replace-day workflow: AI/CLI can rewrite a day plan atomically (no append bloat)</li>
-                                <li>Task acknowledgements with comments stored and visible in UI/API</li>
-                                <li>Localhost-only (127.0.0.1), no cloud dependencies</li>
-                                 <li>Telegram alerts with concise summaries (no spam)</li>
+                                <li>Local-first / offline-capable: localhost-only backend + SQLite as source of truth; core works without cloud</li>
+                                <li>Pluggable LLM automation: supports local LLMs (preferred) or optional cloud LLMs for planning, rewrites, and summaries</li>
+                                <li>KPI dashboard: last N days (done/cancelled/failed/overdue) + minutes + score</li>
+                                <li>Desktop widget: quick view + fast actions without opening the full UI</li>
+                                <li>Daily task tracking: Planned -> Active -> Done / Overdue, quick notes + full task detail pages</li>
+                                <li>Kanban board: lightweight board view for current workflow</li>
+                                <li>Day plan rewrite: AI/CLI can regenerate today's plan as a clean snapshot (no append bloat)</li>
+                                <li>Agent-friendly API/CLI: deterministic endpoints; acknowledgements + comments stored and visible in UI/API</li>
+                                <li>Knowledge Base linking: tasks reference KB notes; exports plans/reports/artifacts into the vault</li>
+                                <li>Telegram alerts: concise summaries and reminders (rate-limited)</li>
                             </ul>
+                        </div>
+                        <div class="repo-widget__section">
+                            <h4>Project status</h4>
+                            <p>Stage 1 - Personal Prototype (business-plan validation): proving the workflow and metrics in a real daily loop before packaging/distribution.</p>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Tech</h4>
@@ -319,29 +325,39 @@
             <!-- Orchestration UI (new row) -->
             <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 455.625px; z-index: 110;">
                 <div class="widget">
-                    <div class="widget__title">AI Orchestration UI</div>
+                    <div class="widget__title">AI Orchestration UI (R&amp;D • MVP in progress)</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
                             <video class="video-player" controls preload="metadata" playsinline width="324" height="180">
                                 <source src="{{ url_for('static', filename='video/orchagent_0010001-0888.mp4') }}" type="video/mp4">
                             </video>
                         </div>
-                        <p class="repo-widget__description">Local UI for orchestrating AI workflows with KB-aware routing and structured task execution.</p>
+                        <p class="repo-widget__description">Local-first UI for orchestrating AI workflows with KB-aware routing and protocol-driven, deterministic execution.</p>
                         <div class="repo-widget__section">
                             <h4>Highlights</h4>
                             <ul>
-                                <li>Knowledge Base (KB) integration for retrieval-augmented prompts</li>
-                                <li>Task pipelines with step-by-step execution and status tracking</li>
-                                <li>Local-first setup for fast iteration and privacy</li>
+                                <li>Deterministic workflow graph: fixed state transitions with optional human approval gates</li>
+                                <li>Protocol-driven runs: standardized roles, constraints, and gates (plan -> implement -> test -> review -> report)</li>
+                                <li>Run artifacts &amp; observability: per-run logs, reports, and traceable outputs for reproducible iteration</li>
+                                <li>KB integration (RAG-ready): Knowledge Base used for retrieval-augmented prompts and as an artifact store</li>
+                                <li>Local-first by default: optimized for privacy and fast iteration; local LLMs first, cloud optional</li>
+                                <li>Graph UI direction: node-based visualization and control surface (OpenGL/WebGL rendering direction)</li>
                             </ul>
+                        </div>
+                        <div class="repo-widget__section">
+                            <h4>Status</h4>
+                            <p>Working MVP; active development / expansion.</p>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Stack</h4>
                             <div class="repo-widget__tags">
                                 <span class="tag">Python</span>
-                                <span class="tag">UI</span>
-                                <span class="tag">RAG</span>
-                                <span class="tag">KB</span>
+                                <span class="tag">Desktop UI</span>
+                                <span class="tag">Workflow Orchestration</span>
+                                <span class="tag">KB/RAG</span>
+                                <span class="tag">Deterministic Graph</span>
+                                <span class="tag">Observability</span>
+                                <span class="tag">OpenGL/WebGL</span>
                             </div>
                         </div>
                         <div class="repo-widget__actions">
@@ -447,6 +463,9 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
+
+
 
 
 
