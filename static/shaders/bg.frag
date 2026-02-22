@@ -35,7 +35,7 @@ const float offsetSpeed       = 1.33 * overallSpeed;
 const float minOffsetSpread   = 0.6;
 const float maxOffsetSpread   = 2.0;
 
-const int   linesPerGroup     = 12;
+const int   linesPerGroup     = 10;
 
 // background colors (avoid GLSL ES 1.00 array constructors)
 const vec4 bg0 = vec4(0.25, 0.5, 1.0, 1.0) * 0.5;

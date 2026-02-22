@@ -430,7 +430,7 @@ void main(){
 `;
 
     const startTime = performance.now();
-    const TARGET_FPS = 30;
+    const TARGET_FPS = 24;
     const FRAME_INTERVAL_MS = 1000 / TARGET_FPS;
     let dpr = 1;
     let width = 0;
@@ -439,7 +439,7 @@ void main(){
     const resolution = [0, 0];
 
     const resize = () => {
-        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        dpr = Math.min(window.devicePixelRatio || 1, 1.25);
         width = Math.floor(window.innerWidth * dpr);
         height = Math.floor(window.innerHeight * dpr);
         resolution[0] = width;
