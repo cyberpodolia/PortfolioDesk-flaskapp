@@ -452,6 +452,52 @@
                     </div>
                 </div>
             </div>
+            <!-- Photogrammetry Specular Cleaner (below Faceghosting) -->
+            <div class="window" data-id="specular-cleaner" style="left: 11.875px; top: 1960px; width: 600px; height: 520px; z-index: 113;" data-x="11.875" data-y="1960">
+                <div class="widget">
+                    <div class="widget__title">Photogrammetry Specular Cleaner</div>
+                    <div class="widget__body repo-widget">
+                        <div class="repo-widget__media">
+                            <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/deshine01.png') }}">
+                                <img src="{{ url_for('static', filename='img/deshine01.png') }}" alt="Specular cleaner comparison screenshot">
+                            </button>
+                            <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/photogramm01.jpg') }}">
+                                <img src="{{ url_for('static', filename='img/photogramm01.jpg') }}" alt="Photogrammetry cleanup workflow screenshot">
+                            </button>
+                            <span class="repo-widget__media-hint">Click to enlarge</span>
+                        </div>
+                        <p class="repo-widget__description">A practical specular-highlight cleaner for photogrammetry: preprocess photos to reduce glare so feature matching and texture baking behave more consistently.</p>
+                        <div class="repo-widget__section">
+                            <h4>What it is</h4>
+                            <ul>
+                                <li>Batch inference for single images or folders</li>
+                                <li>Suppresses specular highlights (shine/glare), not motion blur</li>
+                                <li>Optional GPU acceleration via CUDA-enabled PyTorch</li>
+                                <li>Memory-safe tiled processing for high-res datasets</li>
+                                <li>Works well as a fallback when cross-polarized capture isn't possible</li>
+                            </ul>
+                        </div>
+                        <div class="repo-widget__section">
+                            <h4>Capture note (recommended)</h4>
+                            <p>Cross-polarization (parallel/cross frames) is the most reliable way to remove glare; this tool is the single-image option when you can't control lighting.</p>
+                        </div>
+                        <div class="repo-widget__section">
+                            <h4>Architecture</h4>
+                            <div class="repo-widget__tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">PyTorch</span>
+                                <span class="tag">TorchVision</span>
+                                <span class="tag">Pillow</span>
+                                <span class="tag">NumPy</span>
+                                <span class="tag">Einops</span>
+                            </div>
+                        </div>
+                        <div class="repo-widget__actions">
+                            <a href="https://github.com/cyberpodolia/-photogrammetry-specular-cleaner" target="_blank" rel="noreferrer">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -467,5 +513,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
 
 
