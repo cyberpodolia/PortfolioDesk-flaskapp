@@ -430,15 +430,20 @@ void main(){
 `;
 
     const startTime = performance.now();
+    const TARGET_FPS = 24;
+    const FRAME_INTERVAL_MS = 1000 / TARGET_FPS;
     let dpr = 1;
     let width = 0;
     let height = 0;
     const mouse = [0, 0];
+    const resolution = [0, 0];
 
     const resize = () => {
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        dpr = Math.min(window.devicePixelRatio || 1, 1.25);
         width = Math.floor(window.innerWidth * dpr);
         height = Math.floor(window.innerHeight * dpr);
+        resolution[0] = width;
+        resolution[1] = height;
         canvas.width = width;
         canvas.height = height;
         canvas.style.width = `${window.innerWidth}px`;
@@ -482,7 +487,7 @@ void main() {
                 },
                 uniforms: {
                     u_time: () => (performance.now() - startTime) / 1000,
-                    u_resolution: () => [width, height],
+                    u_resolution: () => resolution,
                     u_mouse: () => mouse
                 },
                 count: 3
@@ -490,17 +495,21 @@ void main() {
 
             let rafId = null;
             let running = false;
+            let lastFrameTime = 0;
 
-            const render = () => {
+            const render = (now) => {
                 if (!running) return;
-                regl.clear({ color: [0, 0, 0, 1], depth: 1 });
-                draw();
+                if (!lastFrameTime || (now - lastFrameTime) >= FRAME_INTERVAL_MS) {
+                    lastFrameTime = now;
+                    draw();
+                }
                 rafId = requestAnimationFrame(render);
             };
 
             const start = () => {
                 if (running) return;
                 running = true;
+                lastFrameTime = 0;
                 rafId = requestAnimationFrame(render);
             };
 
@@ -513,7 +522,6 @@ void main() {
             };
 
             if (reduceMotion) {
-                regl.clear({ color: [0, 0, 0, 1], depth: 1 });
                 draw();
             } else {
                 start();
@@ -533,7 +541,7 @@ void main() {
         }
     };
 
-    fetch('/static/shaders/bg.frag', { cache: 'no-store' })
+    fetch('/static/shaders/bg.frag')
         .then((response) => (response.ok ? response.text() : Promise.reject(new Error('Shader fetch failed'))))
         .then((source) => setupRenderer(source))
         .catch(() => setupRenderer(fallbackFrag));

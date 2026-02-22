@@ -80,6 +80,7 @@ body.no-webgl {
   gap: 4px;
 }
 
+
 button {
   background: var(--panel);
   color: var(--text);
