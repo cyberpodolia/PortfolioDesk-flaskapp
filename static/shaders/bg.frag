@@ -35,7 +35,7 @@ const float offsetSpeed       = 1.33 * overallSpeed;
 const float minOffsetSpread   = 0.6;
 const float maxOffsetSpread   = 2.0;
 
-const int   linesPerGroup     = 16;
+const int   linesPerGroup     = 12;
 
 // background colors (avoid GLSL ES 1.00 array constructors)
 const vec4 bg0 = vec4(0.25, 0.5, 1.0, 1.0) * 0.5;
@@ -102,7 +102,7 @@ void main() {
 
     float circleX = mod(float(l) + u_time * lineSpeed, 25.0) - 12.0;
     vec2  circlePosition = vec2(circleX, getPlasmaY(circleX, horizontalFade, offset));
-    float circle = drawCircle(circlePosition, 0.01, space) * 4.0;
+    float circle = drawCircle(circlePosition, 0.01, space) * 2.5;
 
     line += circle;
 
