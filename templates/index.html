@@ -327,7 +327,7 @@
             </div>
 
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 455.625px; z-index: 110;">
+            <div class="window" data-id="orchestration" style="left: 10px; top: 1150px; width: 600px; height: 610px; z-index: 110;">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI (R&amp;D &bull; MVP in progress)</div>
                     <div class="widget__body repo-widget">
@@ -420,12 +420,12 @@
             </div>
 
             <!-- Realtime Faceghosting (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 11.875px; top: 1624.38px; width: 600px; height: 320px; z-index: 112;" data-x="11.875" data-y="1624.375">
+            <div class="window" data-id="faceghosting" style="left: 11.875px; top: 1780px; width: 600px; height: 460px; z-index: 112;" data-x="11.875" data-y="1780">
                 <div class="widget">
                     <div class="widget__title">Realtime Faceghosting</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <video class="video-player" controls preload="metadata" playsinline width="324" height="180">
+                            <video class="video-player" controls preload="metadata" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
                                 <source src="{{ url_for('static', filename='video/facefx_out0001-0500.mp4') }}" type="video/mp4">
                             </video>
                         </div>
@@ -452,8 +452,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Photogrammetry Specular Cleaner (below Faceghosting) -->
-            <div class="window" data-id="specular-cleaner" style="left: 11.875px; top: 1960px; width: 600px; height: 520px; z-index: 113;" data-x="11.875" data-y="1960">
+            <!-- Photogrammetry Specular Cleaner (right column, under SmallSR) -->
+            <div class="window" data-id="specular-cleaner" style="left: 617.5px; top: 1960px; width: 602.5px; height: 520px; z-index: 113;" data-x="617.5" data-y="1960">
                 <div class="widget">
                     <div class="widget__title">Photogrammetry Specular Cleaner</div>
                     <div class="widget__body repo-widget">
@@ -513,6 +513,15 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
