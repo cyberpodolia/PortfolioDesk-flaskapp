@@ -46,15 +46,14 @@
                 </div>
             </div>
 
-            <!-- CV & Links (right middle) -->
+            <!-- Links (right middle) -->
             <div class="window" data-id="cv" style="left: 960px; top: 230px; width: 260px; height: 220px; z-index: 101;">
                 <div class="widget">
-                    <div class="widget__title">CV & Links</div>
+                    <div class="widget__title">Links</div>
                     <div class="widget__body links-widget">
                         <ul>
                             <li><a href="https://github.com/cyberpodolia" target="_blank" rel="noreferrer">GitHub</a></li>
                             <li><a href="https://www.linkedin.com/in/cyber-podolia-8763463ab/" target="_blank" rel="noreferrer">LinkedIn</a></li>
-                            <li><a href="/cv.pdf" target="_blank" rel="noreferrer"><span style="text-decoration: line-through;">CV (PDF)</span></a></li>
                             <li><a href="mailto:cyberpodolia@proton.me">Email</a></li>
                         </ul>
                     </div>
@@ -112,13 +111,15 @@
                 <div class="widget">
                     <div class="widget__title">Webhook Relay API</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">A small FastAPI service that accepts webhooks, normalizes events, stores them, and optionally relays them to a target URL.</p>
+                        <p class="repo-widget__description">FastAPI webhook intake + event store with idempotency, optional relay, and security controls.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Structured logging with request IDs</li>
-                                <li>Webhook normalization and storage</li>
-                                <li>Optional outbound relay with retries</li>
+                                <li>HMAC-SHA256 signature verification</li>
+                                <li>Idempotency via Idempotency-Key</li>
+                                <li>SSRF protections + relay allowlist options</li>
+                                <li>Prometheus metrics endpoint (/metrics)</li>
+                                <li>Alembic migrations for DB schema</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -142,13 +143,15 @@
                 <div class="widget">
                     <div class="widget__title">QA Automation Suite</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Small UI automation suite using Playwright + pytest against a stable demo site.</p>
+                        <p class="repo-widget__description">Production-style UI automation framework (Playwright + pytest) with per-test artifacts and CI-ready reporting.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Playwright UI automation with a simple Page Object</li>
-                                <li>Stable selectors and explicit expectations</li>
-                                <li>HTML reporting and CI artifacts</li>
+                                <li>Trace/video/screenshot retention policy (on-failure by default)</li>
+                                <li>HTML report with attached artifacts</li>
+                                <li>Readable Page Object model + stable selectors</li>
+                                <li>Config precedence: CLI &gt; env vars &gt; defaults</li>
+                                <li>Deterministic artifact layout per test</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -171,13 +174,15 @@
                 <div class="widget">
                     <div class="widget__title">Asset Scan CLI</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">A small CLI tool that scans a directory, applies naming rules, and writes a JSON report.</p>
+                        <p class="repo-widget__description">Deterministic asset tree scanner: naming rules, duplicate detection, JSON/NDJSON reports, plus Prometheus metrics.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Practical CLI design with Typer</li>
-                                <li>File system scanning and reporting</li>
-                                <li>Clear exit codes for automation</li>
+                                <li>Clear exit codes for CI/automation</li>
+                                <li>Duplicate grouping (stem / stem+ext) + deterministic sorting</li>
+                                <li>Strict filesystem error handling when needed</li>
+                                <li>JSON or NDJSON output for pipelines</li>
+                                <li>Prometheus textfile metrics export</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -235,7 +240,7 @@
                 <div class="widget">
                     <div class="widget__title">About This Site</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">A lightweight Flask portfolio with a draggable desktop UI and no build step.</p>
+                        <p class="repo-widget__description">A buildless Flask portfolio that behaves like a desktop: draggable/resizable windows, layout persistence, and a Telegram-backed contact flow.</p>
                         <div class="repo-widget__section">
                             <h4>What it is</h4>
                             <ul>
@@ -289,20 +294,15 @@
                                 <span class="repo-widget__media-hint">Click to enlarge</span>
                             </div>
                         </div>
-                        <p class="repo-widget__description">Local-first daily planner for Windows. Runs fully on localhost (127.0.0.1) with FastAPI + SQLite and a built-in scheduler. Optimized for daily execution, KPI visibility, and AI-assisted planning via a pluggable LLM layer - local models first, with cloud LLMs optional.</p>
+                        <p class="repo-widget__description">Offline-first daily planner for Windows: local API + scheduler + tray UI, with SQLite as the source of truth.</p>
                         <div class="repo-widget__section">
                             <h4>Key features</h4>
                             <ul>
-                                <li>Local-first / offline-capable: localhost-only backend + SQLite as source of truth; core works without cloud</li>
-                                <li>Pluggable LLM automation: supports local LLMs (preferred) or optional cloud LLMs for planning, rewrites, and summaries</li>
-                                <li>KPI dashboard: last N days (done/cancelled/failed/overdue) + minutes + score</li>
-                                <li>Desktop widget: quick view + fast actions without opening the full UI</li>
-                                <li>Daily task tracking: Planned -> Active -> Done / Overdue, quick notes + full task detail pages</li>
-                                <li>Kanban board: lightweight board view for current workflow</li>
-                                <li>Day plan rewrite: AI/CLI can regenerate today's plan as a clean snapshot (no append bloat)</li>
-                                <li>Agent-friendly API/CLI: deterministic endpoints; acknowledgements + comments stored and visible in UI/API</li>
-                                <li>Knowledge Base linking: tasks reference KB notes; exports plans/reports/artifacts into the vault</li>
-                                <li>Telegram alerts: concise summaries and reminders (rate-limited)</li>
+                                <li>Scheduler + alerts: reminders and start/deadline notifications (optional Telegram)</li>
+                                <li>KPI dashboard: last N days status mix + time totals</li>
+                                <li>Board + task detail pages for daily flow</li>
+                                <li>CLI + deterministic local API designed for automation</li>
+                                <li>Optional LLM layer for planning/rewrite (local-first; cloud optional)</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -336,7 +336,7 @@
                                 <source src="{{ url_for('static', filename='video/orchagent_0010001-0888.mp4') }}" type="video/mp4">
                             </video>
                         </div>
-                        <p class="repo-widget__description">Local-first UI for orchestrating AI workflows with KB-aware routing and protocol-driven, deterministic execution.</p>
+                        <p class="repo-widget__description">Local-first orchestration UI for reproducible AI runs: deterministic execution, approval gates, and traceable artifacts (logs/reports) with KB-aware routing.</p>
                         <div class="repo-widget__section">
                             <h4>Highlights</h4>
                             <ul>
@@ -345,7 +345,7 @@
                                 <li>Run artifacts &amp; observability: per-run logs, reports, and traceable outputs for reproducible iteration</li>
                                 <li>KB integration (RAG-ready): Knowledge Base used for retrieval-augmented prompts and as an artifact store</li>
                                 <li>Local-first by default: optimized for privacy and fast iteration; local LLMs first, cloud optional</li>
-                                <li>Graph UI direction: node-based visualization and control surface (OpenGL/WebGL rendering direction)</li>
+                                <li>Graph UI is in progress: node-based visualization and control surface (OpenGL/WebGL rendering direction)</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -376,7 +376,7 @@
                 <div class="widget">
                     <div class="widget__title">SmallSR</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Lightweight teacher-student pipeline for image restoration and real-time super-resolution on low-res camera streams.</p>
+                        <p class="repo-widget__description">Lightweight teacher-student pipeline for real-time image restoration and super-resolution on low-res camera streams.</p>
                         <div class="repo-widget__media">
                             <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/smallsr_01.jpg') }}">
                                 <img src="{{ url_for('static', filename='img/smallsr_01.jpg') }}" alt="SmallSR screenshot 01">
@@ -429,13 +429,15 @@
                                 <source src="{{ url_for('static', filename='video/facefx_out0001-0500.mp4') }}" type="video/mp4">
                             </video>
                         </div>
-                        <p class="repo-widget__description">Real-time face ghosting effects for live camera streams.</p>
+                        <p class="repo-widget__description">Real-time FaceMesh patch-warp effects for live camera streams, tuned for low latency with ROI processing and runtime performance controls.</p>
                         <div class="repo-widget__section">
                             <h4>Focus</h4>
                             <ul>
-                                <li>Live video processing with low latency</li>
-                                <li>Effect pipeline tuned for webcam inputs</li>
-                                <li>Simple local setup for demos and experiments</li>
+                                <li>Face landmark driven patch-warp (not bbox resize)</li>
+                                <li>ROI-only pipeline: masks/warp/blend constrained to regions</li>
+                                <li>Cached triangulation / fixed topology options</li>
+                                <li>Profiling overlay for FPS + stage timings</li>
+                                <li>Local, demo-friendly setup with practical presets</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -466,7 +468,7 @@
                             </button>
                             <span class="repo-widget__media-hint">Click to enlarge</span>
                         </div>
-                        <p class="repo-widget__description">A practical specular-highlight cleaner for photogrammetry: preprocess photos to reduce glare so feature matching and texture baking behave more consistently.</p>
+                        <p class="repo-widget__description">Single-image specular highlight suppression for photogrammetry: reduces glare to improve feature matching and texture consistency (not motion deblurring).</p>
                         <div class="repo-widget__section">
                             <h4>What it is</h4>
                             <ul>
