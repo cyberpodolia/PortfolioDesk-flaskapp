@@ -111,15 +111,14 @@
                 <div class="widget">
                     <div class="widget__title">Webhook Relay API</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">FastAPI webhook intake + event store with idempotency, optional relay, and security controls.</p>
+                        <p class="repo-widget__description">FastAPI webhook intake + event store, with idempotency and optional relay.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>HMAC-SHA256 signature verification</li>
-                                <li>Idempotency via Idempotency-Key</li>
-                                <li>SSRF protections + relay allowlist options</li>
-                                <li>Prometheus metrics endpoint (/metrics)</li>
-                                <li>Alembic migrations for DB schema</li>
+                                <li>HMAC signature verification</li>
+                                <li>Idempotency-Key support</li>
+                                <li>Relay allowlist + SSRF checks</li>
+                                <li>Prometheus /metrics</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -143,15 +142,13 @@
                 <div class="widget">
                     <div class="widget__title">QA Automation Suite</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Production-style UI automation framework (Playwright + pytest) with per-test artifacts and CI-ready reporting.</p>
+                        <p class="repo-widget__description">Playwright + pytest UI tests with per-test artifacts and HTML reports. Designed to stay readable and stable.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Trace/video/screenshot retention policy (on-failure by default)</li>
-                                <li>HTML report with attached artifacts</li>
-                                <li>Readable Page Object model + stable selectors</li>
-                                <li>Config precedence: CLI &gt; env vars &gt; defaults</li>
-                                <li>Deterministic artifact layout per test</li>
+                                <li>Trace/video/screenshot on failure</li>
+                                <li>HTML report + attachments</li>
+                                <li>Page Objects + stable selectors</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -174,15 +171,14 @@
                 <div class="widget">
                     <div class="widget__title">Asset Scan CLI</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Deterministic asset tree scanner: naming rules, duplicate detection, JSON/NDJSON reports, plus Prometheus metrics.</p>
+                        <p class="repo-widget__description">Asset tree scanner: naming rules, duplicates, JSON/NDJSON reports, metrics.</p>
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Clear exit codes for CI/automation</li>
-                                <li>Duplicate grouping (stem / stem+ext) + deterministic sorting</li>
-                                <li>Strict filesystem error handling when needed</li>
-                                <li>JSON or NDJSON output for pipelines</li>
-                                <li>Prometheus textfile metrics export</li>
+                                <li>Clear exit codes for automation</li>
+                                <li>Duplicate grouping + sorting</li>
+                                <li>JSON/NDJSON output</li>
+                                <li>Prometheus textfile metrics</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
