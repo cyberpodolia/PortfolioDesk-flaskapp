@@ -465,16 +465,17 @@
                             <span class="repo-widget__media-hint">Click to enlarge</span>
                         </div>
                         <p class="repo-widget__description">Single-image specular highlight suppression for photogrammetry: reduces glare to improve feature matching and texture consistency.</p>
-                        <div class="repo-widget__section">
-                            <h4>What it is</h4>
-                            <ul>
-                                <li>Batch inference for single images or folders</li>
-                                <li>Suppresses specular highlights (shine/glare)</li>
-                                <li>Optional GPU acceleration via CUDA-enabled PyTorch</li>
-                                <li>Memory-safe tiled processing for high-res datasets</li>
-                                <li>Works well as a fallback when cross-polarized capture isn't possible</li>
-                            </ul>
-                        </div>
+                         <div class="repo-widget__section">
+                             <h4>What it is</h4>
+                             <ul>
+                                 <li>Batch inference for single images or folders</li>
+                                 <li>Suppresses specular highlights (shine/glare)</li>
+                                 <li>Built on a pretrained model from <a href="https://github.com/CXH-Research/DHAN-SHR" target="_blank" rel="noreferrer">CXH-Research/DHAN-SHR</a></li>
+                                 <li>Optional GPU acceleration via CUDA-enabled PyTorch</li>
+                                 <li>Memory-safe tiled processing for high-res datasets</li>
+                                 <li>Works well as a fallback when cross-polarized capture isn't possible</li>
+                             </ul>
+                         </div>
                         <div class="repo-widget__section">
                             <h4>Capture note (recommended)</h4>
                             <p>Cross-polarization (parallel/cross frames) is the most reliable way to remove glare; this tool is the single-image option when you can't control lighting.</p>
@@ -511,7 +512,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-
 
 
 
