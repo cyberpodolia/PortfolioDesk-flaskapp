@@ -65,7 +65,7 @@
                 <div class="widget">
                     <div class="widget__title">Video Introduction</div>
                     <div class="widget__body video-widget">
-                        <video class="video-player" controls preload="metadata" playsinline poster="{{ url_for('static', filename='video/v11_poster.jpg') }}">
+                        <video class="video-player" controls preload="none" playsinline poster="{{ url_for('static', filename='video/v11_poster.jpg') }}">
                             <source src="{{ url_for('static', filename='video/v11.mp4') }}" type="video/mp4">
                         </video>
                     </div>
@@ -271,7 +271,7 @@
                     <div class="widget__title">Local Planner</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <video class="video-player" controls preload="metadata" playsinline width="324" height="180">
+                            <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='img/screenshot04.jpg') }}">
                                 <source src="{{ url_for('static', filename='video/localplaner_placeholder_010001-1818.mp4') }}" type="video/mp4">
                             </video>
                             <div>
@@ -322,13 +322,64 @@
                 </div>
             </div>
 
+            <!-- Jetson YOLO Realtime Test (left column, between Site and Orchestration) -->
+            <div class="window" data-id="jetson-yolo" style="left: 366px; top: 1150px; width: 600px; height: 600px; z-index: 114;" data-x="366" data-y="1150">
+                <div class="widget">
+                    <div class="widget__title">Jetson YOLO Realtime Test</div>
+                    <div class="widget__body repo-widget">
+                        <div class="repo-widget__media">
+                            <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='img/train_batch0.jpg') }}">
+                                <source src="{{ url_for('static', filename='video/jetson0001-1791.mp4') }}" type="video/mp4">
+                            </video>
+                            <div>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/results.png') }}">
+                                    <img src="{{ url_for('static', filename='img/results.png') }}" alt="YOLO training curves">
+                                </button>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/train_batch0.jpg') }}">
+                                    <img src="{{ url_for('static', filename='img/train_batch0.jpg') }}" alt="YOLO joystick detections">
+                                </button>
+                                <span class="repo-widget__media-hint">Click to enlarge</span>
+                            </div>
+                        </div>
+
+                        <p class="repo-widget__description">Realtime joystick detection on <strong>Jetson Nano 4GB</strong> from USB camera (PS3 Eye). Runs on Jetson: ~<strong>15 FPS</strong> (TensorRT FP16).</p>
+
+                        <div class="repo-widget__section">
+                            <h4>Pipeline</h4>
+                            <ul>
+                                <li>Train on PC (YOLOv8, imgsz=320)</li>
+                                <li>Export to ONNX</li>
+                                <li>Build TensorRT FP16 engine on Jetson</li>
+                                <li>Live preview with bbox + FPS</li>
+                            </ul>
+                        </div>
+
+                        <div class="repo-widget__section">
+                            <h4>What's in the repo</h4>
+                            <ul>
+                                <li><code>scripts/realtime_camera_test.py</code> headless/live camera test + TensorRT inference + FPS/latency JSON</li>
+                                <li><code>scripts/live_preview.sh</code> launch live window with one command on Jetson</li>
+                                <li><code>src/train/train_yolo.py</code> YOLOv8 training script</li>
+                                <li><code>run.txt</code> working runbook with Jetson commands</li>
+                                <li><code>artifacts/joystick.onnx</code> exported ONNX model</li>
+                            </ul>
+                        </div>
+
+                        <div class="repo-widget__actions">
+                            <a href="https://github.com/cyberpodolia/jetson-yolo-realtime-test" target="_blank" rel="noreferrer">GitHub</a>
+                            <a href="{{ url_for('static', filename='video/jetson0001-1791.mp4') }}" target="_blank" rel="noreferrer">Demo MP4</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 366px; top: 1150px; width: 600px; height: 640px; z-index: 110;">
+            <div class="window" data-id="orchestration" style="left: 366px; top: 1760px; width: 600px; height: 630px; z-index: 110;">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI (R&amp;D &bull; MVP in progress)</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <video class="video-player" controls preload="metadata" playsinline width="324" height="180">
+                            <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='img/orch.png') }}">
                                 <source src="{{ url_for('static', filename='video/orchagent_0010001-0888.mp4') }}" type="video/mp4">
                             </video>
                         </div>
@@ -416,12 +467,12 @@
             </div>
 
             <!-- Realtime Faceghosting (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 367.25px; top: 1800px; width: 600px; height: 501.25px; z-index: 112;" data-x="367.25" data-y="1800">
+            <div class="window" data-id="faceghosting" style="left: 367.25px; top: 2390px; width: 600px; height: 501.25px; z-index: 112;" data-x="367.25" data-y="2390">
                 <div class="widget">
                     <div class="widget__title">Realtime Faceghosting</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <video class="video-player" controls preload="metadata" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
+                            <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
                                 <source src="{{ url_for('static', filename='video/facefx_out0001-0500.mp4') }}" type="video/mp4">
                             </video>
                         </div>
@@ -500,6 +551,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -515,10 +567,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-
-
-
-
 
 
 
