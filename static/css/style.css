@@ -539,3 +539,40 @@ button:disabled {
     height: auto;
   }
 }
+
+/* Jetson YOLO dual video layout */
+.window[data-id="jetson-yolo"] .repo-widget__media {
+  align-items: stretch;
+}
+
+.window[data-id="jetson-yolo"] .jetson-yolo__video-pair {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.window[data-id="jetson-yolo"] .jetson-yolo__video-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.window[data-id="jetson-yolo"] .jetson-yolo__video-item .video-player {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: var(--radius);
+}
+
+.window[data-id="jetson-yolo"] .jetson-yolo__label {
+  display: block;
+  margin: 0 0 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 1024px) {
+  .window[data-id="jetson-yolo"] .jetson-yolo__video-pair {
+    flex-direction: column;
+  }
+}
