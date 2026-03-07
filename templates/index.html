@@ -37,9 +37,8 @@
                     <div class="widget__title">About Me</div>
                     <div class="widget__body text-widget">
                         <p><strong>CyberPodolia</strong></p>
-                        <p>CG / CV Engineer • Python Developer</p>
-                        <p>15+ years across 3D, procedural workflows, and real-time pipelines (Houdini, Unreal Engine).</p>
-                        <p>I build local-first tools and production web services: Python backends, CLI automation, QA suites, and protocol-driven orchestration.</p>
+                        <p>CV/ML Engineer • Python Dev</p>
+                        <p>Background in 3D, procedural workflows, and real-time pipelines (Houdini, Unreal Engine).</p>
                         <p>Focus: synthetic data, computer vision, reliable pipelines, and clean ops (Linux, Docker, Nginx).</p>
                         <p><em>Building systems that feel like products.</em></p>
                     </div>
@@ -118,7 +117,7 @@
                                 <li>HMAC signature verification</li>
                                 <li>Idempotency-Key support</li>
                                 <li>Relay allowlist + SSRF checks</li>
-                                <li>Prometheus /metrics</li>
+                                <li>Performance metrics via k6 /perf and Prometheus /metrics</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
@@ -236,7 +235,7 @@
                 <div class="widget">
                     <div class="widget__title">About This Site</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">A buildless Flask portfolio that behaves like a desktop: draggable/resizable windows, layout persistence, and a Telegram-backed contact flow.</p>
+                        <p class="repo-widget__description">A Flask portfolio that behaves like a desktop: draggable/resizable windows, layout persistence, and a Telegram-backed contact flow.</p>
                         <div class="repo-widget__section">
                             <h4>What it is</h4>
                             <ul>
@@ -297,13 +296,13 @@
                                 <li>Scheduler + alerts: reminders and start/deadline notifications (optional Telegram)</li>
                                 <li>KPI dashboard: last N days status mix + time totals</li>
                                 <li>Board + task detail pages for daily flow</li>
-                                <li>CLI + deterministic local API designed for automation</li>
-                                <li>Optional LLM layer for planning/rewrite (local-first; cloud optional)</li>
+                                <li>CLI + local API</li>
+                                <li>LLM layer for planning/rewrite</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Project status</h4>
-                            <p>Stage 1 - Personal Prototype (business-plan validation): proving the workflow and metrics in a real daily loop before packaging/distribution.</p>
+                            <p>Stage 1 - Personal Prototype: proving the workflow and metrics in a real daily loop.</p>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Tech</h4>
@@ -349,17 +348,17 @@
                         <div class="repo-widget__section">
                             <h4>Highlights</h4>
                             <ul>
-                                <li>Detector-only and detection + tracking modes (stable overlays between detector frames)</li>
-                                <li>Simple benchmarks with saved metrics (FPS + median latency) for repeatable comparison</li>
-                                <li>Recording path tested and tuned to keep realtime performance</li>
-                                <li>TensorRT engine is built on the Jetson target device</li>
+                                <li>Tracking-by-detection</li>
+                                <li>Runtime controls for speed vs stability</li>
+                                <li>Metrics-first JSON outputs</li>
+                                <li>TensorRT engine built on Jetson</li>
                             </ul>
                         </div>
 
                         <div class="repo-widget__section">
                             <h4>Pipeline</h4>
                             <ul>
-                                <li>Train on PC (YOLOv8, imgsz=320)</li>
+                                <li>Create and train a custom dataset on PC (YOLOv8, imgsz=320)</li>
                                 <li>Export to ONNX</li>
                                 <li>Build TensorRT FP16 engine on Jetson</li>
                                 <li>Live preview with bbox + FPS</li>
@@ -395,7 +394,8 @@
                                 <source src="{{ url_for('static', filename='video/orchagent_0010001-0888.mp4') }}" type="video/mp4">
                             </video>
                         </div>
-                        <p class="repo-widget__description">Local-first orchestration UI for reproducible AI runs: deterministic execution, approval gates, and traceable artifacts (logs/reports) with KB-aware routing.</p>
+                        <p class="repo-widget__description">Local-first orchestration UI for reproducible AI runs: deterministic execution, approval gates, traceable artifacts (logs/reports), and KB-aware routing.</p>
+                        <p>Personal R&amp;D on applying scaling through standardization and variability control.</p>
                         <div class="repo-widget__section">
                             <h4>Highlights</h4>
                             <ul>
@@ -435,7 +435,8 @@
                 <div class="widget">
                     <div class="widget__title">SmallSR</div>
                     <div class="widget__body repo-widget">
-                        <p class="repo-widget__description">Lightweight teacher-student pipeline for real-time image restoration and super-resolution on low-res camera streams.</p>
+                        <p class="repo-widget__description">Graduation project from the Robot Dreams course. Validation of the idea of CNNs as universal function approximators.</p>
+                        <p>Lightweight teacher-student pipeline for real-time image restoration and super-resolution on low-res camera streams.</p>
                         <div class="repo-widget__media">
                             <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/smallsr_01.jpg') }}">
                                 <img src="{{ url_for('static', filename='img/smallsr_01.jpg') }}" alt="SmallSR screenshot 01">
@@ -478,10 +479,10 @@
                 </div>
             </div>
 
-            <!-- Realtime Faceghosting (new row) -->
+            <!-- Realtime FacegFX (new row) -->
             <div class="window" data-id="faceghosting" style="left: 280.625px; top: 1559.38px; width: 600px; height: 501.25px; z-index: 162;" data-x="280.625" data-y="1559.375">
                 <div class="widget">
-                    <div class="widget__title">Realtime Faceghosting</div>
+                    <div class="widget__title">Realtime FacegFX</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
                             <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
@@ -579,7 +580,6 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-
 
 
 
