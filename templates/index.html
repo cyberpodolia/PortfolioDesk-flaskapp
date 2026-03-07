@@ -322,7 +322,7 @@
             </div>
 
             <!-- Jetson YOLO Realtime Test (left column, between Site and Orchestration) -->
-            <div class="window" data-id="jetson-yolo" style="left: 281.875px; top: 811.25px; width: 600px; height: 741.25px; z-index: 160;" data-x="281.875" data-y="811.25">
+            <div class="window" data-id="jetson-yolo" style="left: 281.875px; top: 811.25px; width: 600px; height: 635px; z-index: 160;" data-x="281.875" data-y="811.25">
                 <div class="widget">
                     <div class="widget__title">Jetson YOLO Realtime: Detection + Tracking</div>
                     <div class="widget__body repo-widget">
@@ -346,32 +346,15 @@
                         <p class="repo-widget__description">Real-time object detection on <strong>Jetson Nano 4GB</strong> from a USB camera. After optimization, benchmark runs reached up to <strong>28-29 FPS</strong>.</p>
 
                         <div class="repo-widget__section">
-                            <h4>Highlights</h4>
+                            <h4>Features</h4>
                             <ul>
-                                <li>Tracking-by-detection</li>
-                                <li>Runtime controls for speed vs stability</li>
-                                <li>Metrics-first JSON outputs</li>
-                                <li>TensorRT engine built on Jetson</li>
-                            </ul>
-                        </div>
-
-                        <div class="repo-widget__section">
-                            <h4>Pipeline</h4>
-                            <ul>
-                                <li>Create and train a custom dataset on PC (YOLOv8, imgsz=320)</li>
-                                <li>Export to ONNX</li>
-                                <li>Build TensorRT FP16 engine on Jetson</li>
-                                <li>Live preview with bbox + FPS</li>
-                            </ul>
-                        </div>
-
-                        <div class="repo-widget__section">
-                            <h4>How it works</h4>
-                            <ul>
-                                <li>Two operating modes: detection only, or detection with tracking for steadier boxes</li>
-                                <li>Tracking-by-detection: run detection on a cadence, track between detector frames, and reacquire when tracking fails</li>
-                                <li>Runtime controls to balance speed vs stability (detector cadence, tracking cadence, preview/recording frame skipping)</li>
-                                <li>Metrics-first workflow: JSON outputs for FPS + median latency, plus per-stage timings</li>
+                                <li>Custom dataset creation and YOLO training on PC</li>
+                                <li>YOLO -> ONNX -> TensorRT FP16 deployment pipeline on Jetson Nano</li>
+                                <li>Real-time USB camera inference on Jetson Nano</li>
+                                <li>Detection + tracking modes for steadier object trajectories</li>
+                                <li>Live preview with bounding boxes, FPS, and latency overlay</li>
+                                <li>Headless benchmark mode with JSON metrics and per-stage timings</li>
+                                <li>Edge optimization focused on Jetson performance and efficiency</li>
                             </ul>
                         </div>
 
