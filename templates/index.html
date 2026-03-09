@@ -481,6 +481,11 @@
                             <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
                                 <source src="{{ url_for('static', filename='video/facefx_out0001-0500.mp4') }}" type="video/mp4">
                             </video>
+                            <div>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/facefx.jpg') }}">
+                                    <img src="{{ url_for('static', filename='img/facefx.jpg') }}" alt="Realtime FaceFX screenshot">
+                                </button>
+                            </div>
                         </div>
                         <p class="repo-widget__description">Research project focused on real-time face-processing pipelines, ROI-first runtime design, and integrating native C++ hot paths into a Python application. The current runtime_cuda variant is validated at about 30 FPS in the 720x540 live preset.</p>
                         <div class="repo-widget__section">
@@ -575,6 +580,8 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
+
 
 
 
