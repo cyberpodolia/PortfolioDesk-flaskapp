@@ -378,7 +378,7 @@
             </div>
 
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 391.25px; top: 2187.5px; width: 600px; height: 639.375px; z-index: 170;" data-x="391.25" data-y="2187.5">
+            <div class="window" data-id="orchestration" style="left: 391.25px; top: 2245px; width: 600px; height: 639.375px; z-index: 170;" data-x="391.25" data-y="2245">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI (R&amp;D &bull; MVP in progress)</div>
                     <div class="widget__body repo-widget">
@@ -472,32 +472,34 @@
                 </div>
             </div>
 
-            <!-- Realtime FacegFX (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 391.25px; top: 1673.13px; width: 600px; height: 502.5px; z-index: 146;" data-x="391.25" data-y="1673.13">
+            <!-- Realtime FaceFX (new row) -->
+            <div class="window" data-id="faceghosting" style="left: 391.25px; top: 1673.13px; width: 600px; height: 560px; z-index: 146;" data-x="391.25" data-y="1673.13">
                 <div class="widget">
-                    <div class="widget__title">Realtime FacegFX</div>
+                    <div class="widget__title">Realtime FaceFX</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
                             <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/poster-facefx.jpg') }}">
                                 <source src="{{ url_for('static', filename='video/facefx_out0001-0500.mp4') }}" type="video/mp4">
                             </video>
                         </div>
-                        <p class="repo-widget__description">Real-time FaceMesh-driven patch-warp effects for live camera streams, optimized for low latency with ROI processing and runtime performance controls.</p>
+                        <p class="repo-widget__description">Research project focused on real-time face-processing pipelines, ROI-first runtime design, and integrating native C++ hot paths into a Python application. The current runtime_cuda variant is validated at about 30 FPS in the 720x540 live preset.</p>
                         <div class="repo-widget__section">
                             <h4>Focus</h4>
                             <ul>
-                                <li>Face landmark driven patch-warp for localized distortions</li>
-                                <li>ROI pipeline: masks, warp, and blend per region</li>
-                                <li>Cached triangulation with fixed-topology options</li>
-                                <li>Built-in profiling overlay (FPS + stage timings)</li>
-                                <li>Demo-friendly presets and quick setup</li>
+                                <li>Real-time face-processing experiments with ROI-first runtime design</li>
+                                <li>Native C++ hot-path integration inside a Python runtime pipeline</li>
+                                <li>Triangle warp, color, shading, and composite stages tuned for live performance</li>
+                                <li>Profiling overlay and debug passes for pipeline inspection</li>
+                                <li>Validated current preset at about 30 FPS in 720x540 live mode</li>
                             </ul>
                         </div>
                         <div class="repo-widget__section">
                             <h4>Tech</h4>
                             <div class="repo-widget__tags">
                                 <span class="tag">Python</span>
+                                <span class="tag">C++</span>
                                 <span class="tag">OpenCV</span>
+                                <span class="tag">MediaPipe</span>
                                 <span class="tag">Realtime</span>
                             </div>
                         </div>
@@ -573,6 +575,10 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
+
+
+
+
 
 
 
