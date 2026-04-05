@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 import requests
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -103,9 +105,7 @@ def contact():
 
     if "screen" in client_meta:
         screen = client_meta["screen"]
-        tg_message += (
-            f"Screen: {screen.get('w')}x{screen.get('h')} @{screen.get('dpr')}x\n"
-        )
+        tg_message += f"Screen: {screen.get('w')}x{screen.get('h')} @{screen.get('dpr')}x\n"
 
     # Send to Telegram
     try:
@@ -122,6 +122,35 @@ def contact():
     except Exception as e:
         print(f"Error sending to Telegram: {e}")
         return jsonify({"ok": False, "error": "Failed to send message."}), 500
+
+
+@app.route("/collect_handwriting_v2")
+def collect_handwriting_v2():
+    return render_template("collect_handwriting_v2.html")
+
+
+@app.route("/api/collect_handwriting_v2", methods=["POST"])
+def api_collect_handwriting_v2():
+    if request.method != "POST":
+        return jsonify({"ok": False, "error": "Method Not Allowed"}), 405
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"ok": False, "error": "No data provided"}), 400
+
+    writer_id = data.get("session", {}).get("writer_id", "unknown")
+    recordings_count = len(data.get("recordings", []))
+
+    filename = f"hw_{writer_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    data_dir = os.path.join(APP_DIR, "handwriting_data")
+
+    os.makedirs(data_dir, exist_ok=True)
+
+    filepath = os.path.join(data_dir, filename)
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return jsonify({"ok": True, "saved": filename, "count": recordings_count})
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>H2D · Збір почерку v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Unbounded:wght@300;700&display=swap');
+
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f2eb;
+  --paper2: #edeae0;
+  --accent: #c0391a;
+  --blue: #1e4d80;
+  --line: rgba(13,13,13,0.1);
+  --line2: rgba(13,13,13,0.2);
+  --ok: #1a7a3c;
+  --warn: #b06010;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Setup overlay ── */
+#setup-overlay {
+  position: fixed; inset: 0;
+  background: var(--paper);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.setup-card {
+  width: 100%;
+  max-width: 480px;
+  border: 1.5px solid var(--line2);
+  padding: 32px;
+  background: #fff;
+}
+
+.setup-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.setup-title span { color: var(--accent); }
+
+.setup-sub {
+  font-size: 11px;
+  color: rgba(13,13,13,0.4);
+  margin-bottom: 28px;
+  letter-spacing: 0.04em;
+}
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(13,13,13,0.45);
+  margin-bottom: 6px;
+}
+
+.field input, .field select {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  border: 1.5px solid var(--line2);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 9px 12px;
+  outline: none;
+  border-radius: 2px;
+  appearance: none;
+}
+.field input:focus, .field select:focus { border-color: var(--blue); }
+
+.radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.radio-pill {
+  font-size: 11px;
+  border: 1.5px solid var(--line2);
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .15s;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+}
+.radio-pill.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ── Header ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1.5px solid var(--line);
+  background: var(--paper);
+  flex-shrink: 0;
+  gap: 12px;
+}
+.brand { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 12px; }
+.brand span { color: var(--accent); }
+
+.hdr-meta { display: flex; align-items: center; gap: 14px; font-size: 10px; color: rgba(13,13,13,0.4); }
+.progress-bar { width: 100px; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .4s; }
+
+/* ── Prompt ── */
+.prompt-zone {
+  flex-shrink: 0;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.prompt-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.prompt-type-badge {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(13,13,13,0.35);
+}
+.rep-indicator {
+  display: flex; gap: 4px; align-items: center;
+}
+.rep-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1.5px solid var(--line2);
+  transition: background .2s;
+}
+.rep-dot.done { background: var(--blue); border-color: var(--blue); }
+.rep-dot.current { background: var(--accent); border-color: var(--accent); }
+
+.prompt-word {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 300;
+  font-size: clamp(24px, 5.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  transition: opacity .18s;
+}
+.prompt-word.fade { opacity: 0; }
+
+/* ── Speed mode ── */
+.mode-bar {
+  display: flex; gap: 6px; margin-top: 10px; align-items: center;
+}
+.mode-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(13,13,13,0.35); margin-right: 4px; }
+.mode-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  border: 1.5px solid var(--line2);
+  background: transparent;
+  color: rgba(13,13,13,0.5);
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .12s;
+}
+.mode-btn.active { border-color: var(--ink); color: var(--ink); font-weight: 500; }
+
+/* ── Canvas ── */
+.canvas-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  cursor: crosshair;
+}
+.canvas-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0, transparent 63px,
+    rgba(30,77,128,0.07) 64px, rgba(30,77,128,0.07) 65px
+  );
+  pointer-events: none; z-index: 0;
+}
+.canvas-wrap::after {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 64px;
+  height: 1px; background: rgba(192,57,26,0.18);
+  pointer-events: none; z-index: 1;
+}
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; z-index: 2; }
+
+/* QA feedback strip */
+#qa-strip {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 5;
+  transition: background .3s;
+}
+#qa-strip.ok    { background: var(--ok); }
+#qa-strip.warn  { background: var(--warn); }
+#qa-strip.error { background: var(--accent); }
+
+/* ── Controls ── */
+.controls {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border-top: 1.5px solid var(--line);
+  background: var(--paper);
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1.5px solid var(--ink);
+  background: transparent; color: var(--ink);
+  padding: 7px 15px;
+  cursor: pointer; border-radius: 2px;
+  transition: all .12s; white-space: nowrap;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn-danger { border-color: var(--accent); color: var(--accent); }
+.btn-danger:hover { background: var(--accent); color: #fff; }
+
+.ctrl-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.pressure-bar { width: 60px; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pressure-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width .04s; }
+
+.stroke-count { font-size: 10px; color: rgba(13,13,13,0.35); }
+
+/* QA message */
+#qa-msg {
+  font-size: 10px; color: var(--accent);
+  min-width: 120px;
+  transition: opacity .2s;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 65px; left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--ink); color: var(--paper);
+  font-size: 11px; letter-spacing: 0.05em;
+  padding: 9px 18px; border-radius: 2px;
+  opacity: 0; transition: all .25s; pointer-events: none; z-index: 200;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Done overlay ── */
+#done-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(245,242,235,.96);
+  z-index: 300;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 20px; text-align: center;
+}
+#done-overlay.show { display: flex; }
+.done-title { font-family: 'Unbounded', sans-serif; font-size: 28px; font-weight: 700; }
+.done-stats { font-size: 12px; color: rgba(13,13,13,.45); line-height: 2; }
+
+/* ── Keyboard hints ── */
+.kbd-hint {
+  position: fixed; bottom: 65px; right: 16px;
+  font-size: 9px; color: rgba(13,13,13,.2); line-height: 2;
+  pointer-events: none;
+}
+kbd {
+  background: var(--paper2); border: 1px solid var(--line2);
+  border-radius: 2px; padding: 1px 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SETUP OVERLAY ═══ -->
+<div id="setup-overlay">
+<div class="setup-card">
+  <div class="setup-title">H2D <span>//</span> Збір</div>
+  <div class="setup-sub">Dataset contract v2 · Налаштуйте сесію перед початком</div>
+
+  <div class="field">
+    <label>Ім'я / псевдонім автора</label>
+    <input type="text" id="s-writer" placeholder="наприклад: writer_01" maxlength="32">
+  </div>
+
+  <div class="field">
+    <label>Рука</label>
+    <div class="radio-group" id="s-hand">
+      <button class="radio-pill active" data-val="right">Права</button>
+      <button class="radio-pill" data-val="left">Ліва</button>
+      <button class="radio-pill" data-val="unknown">Не вказую</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Повторень на слово</label>
+    <div class="radio-group" id="s-reps">
+      <button class="radio-pill" data-val="1">1×</button>
+      <button class="radio-pill active" data-val="3">3×</button>
+      <button class="radio-pill" data-val="5">5×</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Режим письма за замовчуванням</label>
+    <div class="radio-group" id="s-mode">
+      <button class="radio-pill" data-val="careful">Акуратно</button>
+      <button class="radio-pill active" data-val="normal">Звично</button>
+      <button class="radio-pill" data-val="fast">Швидко</button>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="btn-start" style="width:100%;margin-top:8px;padding:11px">
+    Почати збір →
+  </button>
+</div>
+</div>
+
+<!-- ═══ MAIN UI ═══ -->
+<header>
+  <div class="brand">H2D <span>//</span> v2</div>
+  <div class="hdr-meta">
+    <span id="hdr-writer">—</span>
+    <span id="hdr-counter">0 / 0</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <button class="btn" id="btn-export-hdr" style="padding:5px 10px;font-size:9px">↓ JSON</button>
+  </div>
+</header>
+
+<div class="prompt-zone">
+  <div class="prompt-top">
+    <span class="prompt-type-badge" id="prompt-type-badge">слово</span>
+    <div class="rep-indicator" id="rep-indicator"></div>
+  </div>
+  <div class="prompt-word" id="prompt-word">—</div>
+  <div class="mode-bar">
+    <span class="mode-label">Темп:</span>
+    <button class="mode-btn" data-mode="careful">акуратно</button>
+    <button class="mode-btn active" data-mode="normal">звично</button>
+    <button class="mode-btn" data-mode="fast">швидко</button>
+  </div>
+</div>
+
+<div class="canvas-wrap" id="canvas-wrap">
+  <canvas id="draw-canvas"></canvas>
+  <div id="qa-strip"></div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-danger" id="btn-clear">↩</button>
+  <button class="btn btn-primary" id="btn-accept">Прийняти →</button>
+  <button class="btn" id="btn-skip">Пропустити</button>
+  <div class="ctrl-right">
+    <span id="qa-msg"></span>
+    <div class="pressure-bar"><div class="pressure-fill" id="pressure-fill"></div></div>
+    <span class="stroke-count" id="stroke-count">0 штр.</span>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="kbd-hint">
+  <kbd>Enter</kbd> прийняти &nbsp;
+  <kbd>Esc</kbd> стерти &nbsp;
+  <kbd>→</kbd> пропустити
+</div>
+
+<!-- ═══ DONE ═══ -->
+<div id="done-overlay">
+  <div class="done-title">Сесію завершено</div>
+  <div class="done-stats" id="done-stats"></div>
+  <button class="btn btn-primary" id="btn-export-final">Зберегти JSON</button>
+  <button class="btn" id="btn-restart">Нова сесія</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// CURRICULUM — balanced word list
+// ═══════════════════════════════════════════════════════════════
+const CURRICULUM = {
+  // Ukrainian-specific letters
+  ua_letters: [
+    "ї","її","їжак","їхати","їх","їжа","їздить",
+    "і","він","вона","інший","іноді","ім'я","індекс","іноземний",
+    "є","єдиний","Європа","єресь","єнот","є","немає",
+    "ґ","ґанок","ґніт","ґрунт","ґедзь","ґвалт",
+  ],
+  // Common bigram/trigram coverage — frequent Ukrainian pairs
+  bigrams: [
+    "ти","ми","ви","їх","їм","до","на","за","по","від",
+    "що","як","де","коли","або","але","та","і","у","в",
+    "ій","ій","йо","нь","ть","ть","ся","ся",
+  ],
+  // Document vocabulary
+  doc_words: [
+    "заява","підпис","дата","адреса","місто","прізвище",
+    "посада","відділ","підприємство","організація","договір",
+    "акт","довідка","журнал","реєстр","номер","серія",
+    "отримав","підписав","затвердив","погодив","перевірив",
+    "дозволяю","забороняю","прошу","повідомляю","підтверджую",
+    "школа","клас","учень","вчитель","директор","секретар",
+    "будинок","вулиця","район","область","місяць","рік",
+    "телефон","пошта","факс",
+  ],
+  // Upper/lowercase pairs — same word both cases
+  case_pairs: [
+    "Київ","київ","Україна","україна","Львів","львів",
+    "Одеса","одеса","Харків","харків",
+  ],
+  // Numbers and date formats
+  numbers: [
+    "1","2","3","5","7","9","0",
+    "12","25","100","2024","2025",
+    "01.01","31.12","15.06",
+    "№1","№25","№100",
+  ],
+  // Sentences (doc phrases)
+  sentences: [
+    "Прошу надати відпустку",
+    "Підтверджую отримання",
+    "Дата народження",
+    "Місце проживання",
+    "Прошу прийняти на роботу",
+    "Дійсно на весь термін",
+    "Підпис розбірливий",
+    "Вхідний номер документа",
+  ],
+};
+
+// Build prompt list with type tags
+const PROMPTS = [];
+const push = (type, items) => items.forEach(t => PROMPTS.push({ text: t, type }));
+push("letter",   CURRICULUM.ua_letters);
+push("bigram",   CURRICULUM.bigrams);
+push("word",     CURRICULUM.doc_words);
+push("word",     CURRICULUM.case_pairs);
+push("number",   CURRICULUM.numbers);
+push("sentence", CURRICULUM.sentences);
+
+// ═══════════════════════════════════════════════════════════════
+// SESSION STATE
+// ═══════════════════════════════════════════════════════════════
+const session = {
+  id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36),
+  writer_id:   "",
+  handedness:  "right",
+  target_reps: 3,
+  default_mode:"normal",
+  device: {
+    pointer_type:   "unknown",
+    has_pressure:   false,    // detected on first real pen event
+    screen_w: screen.width,
+    screen_h: screen.height,
+    pixel_ratio: devicePixelRatio,
+    user_agent: navigator.userAgent,
+  },
+  started_at: null,
+};
+
+// Progress tracking: prompt_idx → array of completed rep recordings
+const progress = new Map(); // prompt_idx → [{...recording}]
+
+let currentPromptIdx = 0;
+let currentMode = "normal";
+let currentRepIdx = 0;
+
+// Drawing state
+let drawing = false;
+let currentStroke = [];        // {x_px,y_px,p,t_ms} raw canvas pixels
+let strokes = [];              // committed strokes for current attempt
+let strokeStartT = null;
+
+// Pressure support detection
+let pressureDetected = false;
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS
+// ═══════════════════════════════════════════════════════════════
+const canvas = document.getElementById('draw-canvas');
+const ctx    = canvas.getContext('2d');
+const wrap   = document.getElementById('canvas-wrap');
+
+function resizeCanvas() {
+  const dpr  = devicePixelRatio || 1;
+  const rect = wrap.getBoundingClientRect();
+  canvas.width  = rect.width  * dpr;
+  canvas.height = rect.height * dpr;
+  canvas.style.width  = rect.width  + 'px';
+  canvas.style.height = rect.height + 'px';
+  ctx.scale(dpr, dpr);
+  redraw();
+}
+window.addEventListener('resize', resizeCanvas);
+
+function canvasRect() { return canvas.getBoundingClientRect(); }
+
+function eventPos(e) {
+  const src  = e.changedTouches ? e.changedTouches[0] : e;
+  const rect = canvasRect();
+  const p    = (src.pressure !== undefined && src.pressure > 0) ? src.pressure : 0.5;
+  if (src.pressure > 0 && !pressureDetected) {
+    pressureDetected = true;
+    session.device.has_pressure = true;
+    session.device.pointer_type = e.pointerType || 'touch';
+  }
+  return {
+    x_px: src.clientX - rect.left,
+    y_px: src.clientY - rect.top,
+    p,
+    t_ms: performance.now(),  // high-resolution local time
+  };
+}
+
+// ── Draw handlers ──────────────────────────────────────────────
+function onDown(e) {
+  e.preventDefault();
+  const pt = eventPos(e);
+  drawing = true;
+  strokeStartT = pt.t_ms;
+  currentStroke = [pt];
+  ctx.beginPath();
+  ctx.moveTo(pt.x_px, pt.y_px);
+  updatePressure(pt.p);
+}
+
+function onMove(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  const pt = eventPos(e);
+  currentStroke.push(pt);
+  const n = currentStroke.length;
+  ctx.lineWidth   = Math.max(0.8, pt.p * 4.5);
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.strokeStyle = '#1a1a2e';
+  if (n >= 3) {
+    const a = currentStroke[n-3], b = currentStroke[n-2], c = currentStroke[n-1];
+    ctx.beginPath();
+    ctx.moveTo((a.x_px+b.x_px)/2, (a.y_px+b.y_px)/2);
+    ctx.quadraticCurveTo(b.x_px, b.y_px, (b.x_px+c.x_px)/2, (b.y_px+c.y_px)/2);
+    ctx.stroke();
+  } else if (n === 2) {
+    const a = currentStroke[0];
+    ctx.beginPath(); ctx.moveTo(a.x_px, a.y_px); ctx.lineTo(pt.x_px, pt.y_px); ctx.stroke();
+  }
+  updatePressure(pt.p);
+  runQA(false);
+}
+
+function onUp(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  drawing = false;
+  if (currentStroke.length >= 2) {
+    strokes.push([...currentStroke]);
+    updateStrokeCount();
+    runQA(false);
+  }
+  currentStroke = [];
+  updatePressure(0);
+}
+
+canvas.addEventListener('pointerdown',  onDown, { passive: false });
+canvas.addEventListener('pointermove',  onMove, { passive: false });
+canvas.addEventListener('pointerup',    onUp,   { passive: false });
+canvas.addEventListener('pointerleave', onUp,   { passive: false });
+canvas.addEventListener('touchstart',   onDown, { passive: false });
+canvas.addEventListener('touchmove',    onMove, { passive: false });
+canvas.addEventListener('touchend',     onUp,   { passive: false });
+canvas.addEventListener('contextmenu',  e => e.preventDefault());
+
+function redraw() {
+  const dpr = devicePixelRatio || 1;
+  ctx.clearRect(0, 0, canvas.width/dpr, canvas.height/dpr);
+  for (const stroke of strokes) {
+    if (stroke.length < 2) continue;
+    ctx.beginPath();
+    ctx.moveTo(stroke[0].x_px, stroke[0].y_px);
+    for (let i = 1; i < stroke.length; i++) {
+      const a = stroke[i-1], b = stroke[i];
+      ctx.quadraticCurveTo(a.x_px, a.y_px, (a.x_px+b.x_px)/2, (a.y_px+b.y_px)/2);
+    }
+    ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#1a1a2e'; ctx.stroke();
+  }
+}
+
+function clearCanvas() {
+  const dpr = devicePixelRatio || 1;
+  ctx.clearRect(0, 0, canvas.width/dpr, canvas.height/dpr);
+  strokes = []; currentStroke = [];
+  updateStrokeCount();
+  setQAStrip('');
+  document.getElementById('qa-msg').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QA VALIDATION
+// ═══════════════════════════════════════════════════════════════
+const QA_MIN_STROKES      = 1;
+const QA_MIN_POINTS       = 4;      // per stroke
+const QA_MIN_INK_W        = 15;     // px
+const QA_MIN_INK_H        = 8;      // px
+const QA_MIN_STROKE_LEN   = 10;     // px total path length
+
+function strokeLength(stroke) {
+  let len = 0;
+  for (let i = 1; i < stroke.length; i++) {
+    const dx = stroke[i].x_px - stroke[i-1].x_px;
+    const dy = stroke[i].y_px - stroke[i-1].y_px;
+    len += Math.sqrt(dx*dx + dy*dy);
+  }
+  return len;
+}
+
+function inkBBox(strokes) {
+  let x1=Infinity, y1=Infinity, x2=-Infinity, y2=-Infinity;
+  for (const s of strokes) for (const p of s) {
+    if (p.x_px < x1) x1=p.x_px; if (p.y_px < y1) y1=p.y_px;
+    if (p.x_px > x2) x2=p.x_px; if (p.y_px > y2) y2=p.y_px;
+  }
+  return { x1, y1, x2, y2, w: x2-x1, h: y2-y1 };
+}
+
+function runQA(strict) {
+  const strip = document.getElementById('qa-strip');
+  const msg   = document.getElementById('qa-msg');
+  if (strokes.length === 0) { setQAStrip(''); msg.textContent=''; return true; }
+
+  const issues = [];
+  const bbox = inkBBox(strokes);
+
+  if (strokes.length < QA_MIN_STROKES)
+    issues.push("Намалюй хоча б один штрих");
+  for (const s of strokes) {
+    if (s.length < QA_MIN_POINTS)
+      issues.push("Штрих занадто короткий");
+    if (strokeLength(s) < QA_MIN_STROKE_LEN)
+      issues.push("Рух занадто малий");
+  }
+  if (bbox.w < QA_MIN_INK_W)
+    issues.push(`Занадто вузько (${bbox.w.toFixed(0)}px)`);
+  if (bbox.h < QA_MIN_INK_H)
+    issues.push(`Занадто низько (${bbox.h.toFixed(0)}px)`);
+
+  if (issues.length === 0) {
+    setQAStrip('ok'); msg.textContent = '';
+    return true;
+  } else {
+    setQAStrip(strict ? 'error' : 'warn');
+    msg.textContent = issues[0];
+    return false;
+  }
+}
+
+function setQAStrip(cls) {
+  const s = document.getElementById('qa-strip');
+  s.className = cls;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// METRICS — computed at accept time
+// ═══════════════════════════════════════════════════════════════
+function computeMetrics(rawStrokes) {
+  const bbox     = inkBBox(rawStrokes);
+  const allPts   = rawStrokes.flat();
+  const t_start  = allPts[0].t_ms;
+  const t_end    = allPts[allPts.length-1].t_ms;
+  const duration = t_end - t_start;
+
+  let total_length = 0;
+  let pressure_sum = 0, pressure_min = 1, pressure_max = 0;
+  let pen_lifts = rawStrokes.length - 1;
+
+  for (const s of rawStrokes) {
+    total_length += strokeLength(s);
+    for (const p of s) {
+      pressure_sum += p.p;
+      if (p.p < pressure_min) pressure_min = p.p;
+      if (p.p > pressure_max) pressure_max = p.p;
+    }
+  }
+
+  const total_pts = allPts.length;
+  const mean_speed = duration > 0 ? (total_length / duration) : 0; // px/ms
+
+  // Entry and exit angles (from first/last stroke)
+  function strokeAngle(stroke, fromStart) {
+    if (stroke.length < 2) return 0;
+    const a = fromStart ? stroke[0] : stroke[stroke.length-2];
+    const b = fromStart ? stroke[1] : stroke[stroke.length-1];
+    return Math.atan2(b.y_px - a.y_px, b.x_px - a.x_px) * 180 / Math.PI;
+  }
+  const entry_angle = strokeAngle(rawStrokes[0], true);
+  const exit_angle  = strokeAngle(rawStrokes[rawStrokes.length-1], false);
+
+  return {
+    stroke_count:   rawStrokes.length,
+    pen_lift_count: pen_lifts,
+    total_points:   total_pts,
+    total_length_px: Math.round(total_length),
+    duration_ms:    Math.round(duration),
+    mean_speed_px_ms: parseFloat(mean_speed.toFixed(3)),
+    ink_bbox_px:    { x1: Math.round(bbox.x1), y1: Math.round(bbox.y1),
+                      w: Math.round(bbox.w),   h: Math.round(bbox.h) },
+    bbox_aspect:    bbox.h > 0 ? parseFloat((bbox.w/bbox.h).toFixed(3)) : 0,
+    pressure: {
+      mean: parseFloat((pressure_sum/total_pts).toFixed(3)),
+      min:  parseFloat(pressure_min.toFixed(3)),
+      max:  parseFloat(pressure_max.toFixed(3)),
+      is_real: pressureDetected,
+    },
+    entry_angle_deg: parseFloat(entry_angle.toFixed(1)),
+    exit_angle_deg:  parseFloat(exit_angle.toFixed(1)),
+    writing_mode:    currentMode,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NORMALIZE
+// ═══════════════════════════════════════════════════════════════
+function normalizeStrokes(rawStrokes) {
+  // normalized_canvas: x,y in [0,1] relative to full canvas
+  const rect = canvasRect();
+  const normalized_canvas = rawStrokes.map(s => s.map(p => ({
+    x: parseFloat((p.x_px / rect.width).toFixed(5)),
+    y: parseFloat((p.y_px / rect.height).toFixed(5)),
+    p: parseFloat(p.p.toFixed(4)),
+    dt: parseFloat(p.t_ms.toFixed(1)),  // ms since performance.timeOrigin
+  })));
+
+  // normalized_ink_bbox: x,y in [0,1] relative to ink bounding box
+  const bbox = inkBBox(rawStrokes);
+  const W = bbox.w || 1, H = bbox.h || 1;
+  const normalized_ink = rawStrokes.map(s => s.map(p => ({
+    x: parseFloat(((p.x_px - bbox.x1) / W).toFixed(5)),
+    y: parseFloat(((p.y_px - bbox.y1) / H).toFixed(5)),
+    p: parseFloat(p.p.toFixed(4)),
+    dt: parseFloat(p.t_ms.toFixed(1)),
+  })));
+
+  return { normalized_canvas, normalized_ink };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORD FLOW
+// ═══════════════════════════════════════════════════════════════
+function getRepsDone(idx) {
+  return (progress.get(idx) || []).length;
+}
+
+function findNextPrompt() {
+  const target = session.target_reps;
+  // Continue current if not done
+  if (getRepsDone(currentPromptIdx) < target) return currentPromptIdx;
+  // Find next incomplete
+  for (let i = currentPromptIdx + 1; i < PROMPTS.length; i++)
+    if (getRepsDone(i) < target) return i;
+  for (let i = 0; i < currentPromptIdx; i++)
+    if (getRepsDone(i) < target) return i;
+  return -1; // all done
+}
+
+function loadPrompt(idx) {
+  currentPromptIdx = idx;
+  currentRepIdx = getRepsDone(idx);
+  const p = PROMPTS[idx];
+
+  const el = document.getElementById('prompt-word');
+  el.classList.add('fade');
+  setTimeout(() => { el.textContent = p.text; el.classList.remove('fade'); }, 180);
+
+  document.getElementById('prompt-type-badge').textContent = typeLabel(p.type);
+  renderRepDots();
+  clearCanvas();
+}
+
+function typeLabel(t) {
+  return { word:'слово', letter:'буква', bigram:'склад', number:'число', sentence:'фраза' }[t] || t;
+}
+
+function renderRepDots() {
+  const done   = getRepsDone(currentPromptIdx);
+  const target = session.target_reps;
+  const cont   = document.getElementById('rep-indicator');
+  cont.innerHTML = '';
+  for (let i = 0; i < target; i++) {
+    const d = document.createElement('div');
+    d.className = 'rep-dot' + (i < done ? ' done' : i === done ? ' current' : '');
+    cont.appendChild(d);
+  }
+}
+
+function updateProgress() {
+  const total = PROMPTS.length * session.target_reps;
+  const done  = [...progress.values()].reduce((s, recs) => s + recs.length, 0);
+  const pct   = total ? done/total*100 : 0;
+  document.getElementById('hdr-counter').textContent = `${done} / ${total}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACCEPT / SKIP
+// ═══════════════════════════════════════════════════════════════
+function acceptRecording() {
+  if (!runQA(true)) {
+    showToast('Перевір якість запису');
+    return;
+  }
+
+  const p   = PROMPTS[currentPromptIdx];
+  const { normalized_canvas, normalized_ink } = normalizeStrokes(strokes);
+  const metrics = computeMetrics(strokes);
+
+  const record = {
+    // Identity
+    prompt_id:    currentPromptIdx,
+    prompt_text:  p.text,
+    prompt_type:  p.type,
+    repeat_index: getRepsDone(currentPromptIdx),
+    writing_mode: currentMode,
+
+    // Session / writer / device
+    session_id:   session.id,
+    writer_id:    session.writer_id,
+    handedness:   session.handedness,
+    device:       { ...session.device },
+
+    // Raw data (px, keep for calibration & fitting)
+    raw_strokes_px: strokes.map(s => s.map(pt => ({
+      x: Math.round(pt.x_px * 10) / 10,
+      y: Math.round(pt.y_px * 10) / 10,
+      p: parseFloat(pt.p.toFixed(4)),
+      t: parseFloat(pt.t_ms.toFixed(1)),
+    }))),
+    canvas_size_px: {
+      w: Math.round(canvasRect().width),
+      h: Math.round(canvasRect().height),
+    },
+
+    // Normalized (portable across devices)
+    normalized_canvas,
+    normalized_ink,
+
+    // Computed metrics
+    metrics,
+
+    // Timestamp
+    recorded_at: new Date().toISOString(),
+  };
+
+  if (!progress.has(currentPromptIdx)) progress.set(currentPromptIdx, []);
+  progress.get(currentPromptIdx).push(record);
+
+  showToast(`✓ «${p.text}» (${record.repeat_index+1}/${session.target_reps})`);
+  updateProgress();
+  autoSave();
+
+  const next = findNextPrompt();
+  if (next === -1) { showDone(); return; }
+
+  clearCanvas();
+  loadPrompt(next);
+}
+
+function skipPrompt() {
+  showToast(`→ Пропущено`);
+  // Find next without recording
+  let next = currentPromptIdx + 1;
+  if (next >= PROMPTS.length) next = 0;
+  if (next === currentPromptIdx) { showDone(); return; }
+  clearCanvas();
+  loadPrompt(next);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════
+function buildExport() {
+  const all_recordings = [...progress.values()].flat();
+  return {
+    schema_version: "2.0",
+    session: {
+      id:           session.id,
+      writer_id:    session.writer_id,
+      handedness:   session.handedness,
+      target_reps:  session.target_reps,
+      default_mode: session.default_mode,
+      started_at:   session.started_at,
+      exported_at:  new Date().toISOString(),
+      device:       session.device,
+    },
+    summary: {
+      prompts_total:      PROMPTS.length,
+      recordings_total:   all_recordings.length,
+      strokes_total:      all_recordings.reduce((s,r) => s + r.metrics.stroke_count, 0),
+      points_total:       all_recordings.reduce((s,r) => s + r.metrics.total_points, 0),
+      has_real_pressure:  pressureDetected,
+    },
+    // coordinate_space doc:
+    // raw_strokes_px  → absolute pixels on this device's canvas
+    // normalized_canvas → [0,1] relative to canvas size
+    // normalized_ink    → [0,1] relative to ink bounding box (scale-invariant)
+    // p  → stylus pressure [0,1]; 0.5 = fallback if no pressure hardware
+    // t  → performance.now() milliseconds (relative to page load, NOT epoch)
+    coordinate_docs: {
+      raw_strokes_px:    "absolute px on recording canvas; canvas_size_px gives context",
+      normalized_canvas: "x/y in [0,1] relative to canvas w/h",
+      normalized_ink:    "x/y in [0,1] relative to ink bounding box (size-invariant)",
+      p:                 "pressure [0,1]; metrics.pressure.is_real=false means fallback 0.5",
+      t:                 "performance.now() ms; use dt=t[i]-t[0] for relative timing",
+    },
+    recordings: all_recordings,
+  };
+}
+
+function exportJSON() {
+  const payload = buildExport();
+  if (payload.recordings.length === 0) { showToast('Немає даних'); return; }
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `h2d_${session.writer_id || 'anon'}_${new Date().toISOString().slice(0,10)}_${payload.recordings.length}rec.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('JSON збережено');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DONE
+// ═══════════════════════════════════════════════════════════════
+function showDone() {
+  const exp = buildExport();
+  document.getElementById('done-stats').innerHTML =
+    `${exp.summary.recordings_total} записів &nbsp;·&nbsp; ` +
+    `${exp.summary.strokes_total} штрихів &nbsp;·&nbsp; ` +
+    `${exp.summary.points_total} точок<br>` +
+    `Автор: ${session.writer_id || 'анон'} &nbsp;·&nbsp; ` +
+    `Тиск: ${pressureDetected ? 'реальний' : 'fallback'}`;
+  document.getElementById('done-overlay').classList.add('show');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════════════════
+function updatePressure(p) {
+  document.getElementById('pressure-fill').style.width = (p*100) + '%';
+}
+function updateStrokeCount() {
+  const n = strokes.length;
+  document.getElementById('stroke-count').textContent =
+    n + ' ' + (n===1?'штрих':n<5?'штрихи':'штрихів');
+}
+function showToast(msg, ms=1800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), ms);
+}
+
+async function autoSave() {
+  const payload = buildExport();
+  if (payload.recordings.length === 0) return;
+  try {
+    const res = await fetch('/api/collect_handwriting_v2', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.ok) {
+      console.log('Auto-saved:', data.saved);
+    }
+  } catch (e) {
+    console.warn('Auto-save failed:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SETUP SCREEN
+// ═══════════════════════════════════════════════════════════════
+function makeRadioGroup(containerId) {
+  const container = document.getElementById(containerId);
+  container.addEventListener('click', e => {
+    const btn = e.target.closest('.radio-pill');
+    if (!btn) return;
+    container.querySelectorAll('.radio-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+  return () => container.querySelector('.radio-pill.active')?.dataset.val;
+}
+
+const getHand  = makeRadioGroup('s-hand');
+const getReps  = makeRadioGroup('s-reps');
+const getMode  = makeRadioGroup('s-mode');
+
+document.getElementById('btn-start').addEventListener('click', () => {
+  const writerRaw = document.getElementById('s-writer').value.trim();
+  session.writer_id    = writerRaw || 'anon_' + Date.now().toString(36).slice(-5);
+  session.handedness   = getHand();
+  session.target_reps  = parseInt(getReps());
+  session.default_mode = getMode();
+  session.started_at   = new Date().toISOString();
+  currentMode          = session.default_mode;
+
+  document.getElementById('hdr-writer').textContent = session.writer_id;
+  document.getElementById('setup-overlay').style.display = 'none';
+  setActiveMode(currentMode);
+  resizeCanvas();
+  updateProgress();
+  loadPrompt(0);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// MODE BUTTONS
+// ═══════════════════════════════════════════════════════════════
+function setActiveMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+}
+document.querySelectorAll('.mode-btn').forEach(b => {
+  b.addEventListener('click', () => setActiveMode(b.dataset.mode));
+});
+
+// ═══════════════════════════════════════════════════════════════
+// BUTTONS & KEYBOARD
+// ═══════════════════════════════════════════════════════════════
+document.getElementById('btn-accept').addEventListener('click', acceptRecording);
+document.getElementById('btn-clear').addEventListener('click', clearCanvas);
+document.getElementById('btn-skip').addEventListener('click', skipPrompt);
+document.getElementById('btn-export-hdr').addEventListener('click', exportJSON);
+document.getElementById('btn-export-final').addEventListener('click', exportJSON);
+document.getElementById('btn-restart').addEventListener('click', () => {
+  location.reload();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter')      { e.preventDefault(); acceptRecording(); }
+  if (e.key === 'Escape')     { e.preventDefault(); clearCanvas(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); skipPrompt(); }
+  if ((e.ctrlKey||e.metaKey) && e.key==='s') { e.preventDefault(); exportJSON(); }
+});
+</script>
+</body>
+</html>
