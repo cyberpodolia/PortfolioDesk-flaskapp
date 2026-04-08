@@ -231,7 +231,7 @@
             </div>
 
             <!-- About This Site (bottom row, full width) -->
-            <div class="window" data-id="site" style="left: 392.5px; top: 1360.62px; width: 600px; height: 320px; z-index: 136;" data-x="392.5" data-y="1360.62">
+            <div class="window" data-id="site" style="left: 392.5px; top: 1370.62px; width: 600px; height: 320px; z-index: 136;" data-x="392.5" data-y="1370.62">
                 <div class="widget">
                     <div class="widget__title">About This Site</div>
                     <div class="widget__body repo-widget">
@@ -265,7 +265,7 @@
             </div>
 
             <!-- Local Planner (bottom row, full width) -->
-            <div class="window" data-id="planner" style="left: 1001.88px; top: 2046.88px; width: 600px; height: 562.5px; z-index: 162;" data-x="1001.88" data-y="2046.88">
+            <div class="window" data-id="planner" style="left: 1001.88px; top: 2056.88px; width: 600px; height: 562.5px; z-index: 162;" data-x="1001.88" data-y="2056.88">
                 <div class="widget">
                     <div class="widget__title">Local Planner</div>
                     <div class="widget__body repo-widget">
@@ -322,7 +322,7 @@
             </div>
 
             <!-- Jetson YOLO Realtime Test (left column, between Site and Orchestration) -->
-            <div class="window" data-id="jetson-yolo" style="left: 392.625px; top: 815.625px; width: 600px; height: 537.5px; z-index: 129;" data-x="392.625" data-y="815.625">
+            <div class="window" data-id="jetson-yolo" style="left: 392.625px; top: 815.625px; width: 600px; height: 547.5px; z-index: 129;" data-x="392.625" data-y="815.625">
                 <div class="widget">
                     <div class="widget__title">Jetson YOLO Realtime: Detection + Tracking</div>
                     <div class="widget__body repo-widget">
@@ -330,31 +330,31 @@
                             <div class="jetson-yolo__video-pair">
                                 <div class="jetson-yolo__video-item">
                                     <span class="jetson-yolo__label">Before optimization</span>
-                                    <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/dsc0041_720p_poster.jpg') }}">
+                                    <video class="video-player" controls preload="none" playsinline poster="{{ url_for('static', filename='video/dsc0041_720p_poster.jpg') }}">
                                         <source src="{{ url_for('static', filename='video/dsc0041_720p.mp4') }}" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="jetson-yolo__video-item">
-                                    <span class="jetson-yolo__label">After optimization</span>
-                                    <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='video/perf_vs2_optimized_poster.jpg') }}">
-                                        <source src="{{ url_for('static', filename='video/perf_vs2_optimized.mp4') }}" type="video/mp4">
+                                    <span class="jetson-yolo__label">Jetson demo</span>
+                                    <video class="video-player" controls preload="none" playsinline poster="{{ url_for('static', filename='video/YOLO_web_poster.jpg') }}">
+                                        <source src="{{ url_for('static', filename='video/YOLO_web.mp4') }}" type="video/mp4">
                                     </video>
                                 </div>
                             </div>
                         </div>
 
-                        <p class="repo-widget__description">Real-time object detection on <strong>Jetson Nano 4GB</strong> from a USB camera. After optimization, benchmark runs reached up to <strong>28-29 FPS</strong>.</p>
+                        <p class="repo-widget__description">Real-time object detection and tracking on <strong>Jetson Nano 4GB</strong> with a custom YOLO pipeline built from synthetic data generation, PC-side training, and TensorRT FP16 deployment.</p>
 
                         <div class="repo-widget__section">
                             <h4>Features</h4>
                             <ul>
-                                <li>Custom dataset creation and YOLO training on PC</li>
+                                <li>Synthetic dataset generation in Unreal Engine + Houdini</li>
+                                <li>YOLO training on mixed real and synthetic data on PC</li>
                                 <li>YOLO -> ONNX -> TensorRT FP16 deployment pipeline on Jetson Nano</li>
-                                <li>Real-time USB camera inference on Jetson Nano</li>
-                                <li>Detection + tracking modes for steadier object trajectories</li>
+                                <li>Real-time USB camera inference with detection + tracking modes</li>
                                 <li>Live preview with bounding boxes, FPS, and latency overlay</li>
-                                <li>Headless benchmark mode with JSON metrics and per-stage timings</li>
-                                <li>Edge optimization focused on Jetson performance and efficiency</li>
+                                <li>Prerecorded Jetson A/B benchmarks with JSON metrics and video outputs</li>
+                                <li>Separate synthetic pipeline repo linked from this project</li>
                             </ul>
                         </div>
 
@@ -372,20 +372,30 @@
 
                         <div class="repo-widget__actions">
                             <a href="https://github.com/cyberpodolia/jetson-yolo-realtime-test" target="_blank" rel="noreferrer">GitHub</a>
+                            <a href="https://github.com/cyberpodolia/Jetson-syntetic-Unreal-Houdini" target="_blank" rel="noreferrer">Synthetic Pipeline</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Orchestration UI (new row) -->
-            <div class="window" data-id="orchestration" style="left: 391.25px; top: 2265px; width: 600px; height: 639.375px; z-index: 170;" data-x="391.25" data-y="2265">
+            <div class="window" data-id="orchestration" style="left: 391.25px; top: 2275px; width: 600px; height: 639.375px; z-index: 170;" data-x="391.25" data-y="2275">
                 <div class="widget">
                     <div class="widget__title">AI Orchestration UI (R&amp;D &bull; MVP in progress)</div>
                     <div class="widget__body repo-widget">
                         <div class="repo-widget__media">
-                            <video class="video-player" controls preload="none" playsinline width="324" height="180" poster="{{ url_for('static', filename='img/orch.jpg') }}">
-                                <source src="{{ url_for('static', filename='video/orchagent_0010001-0888.mp4') }}" type="video/mp4">
+                            <video class="video-player" autoplay muted loop playsinline preload="metadata" width="324" height="180" poster="{{ url_for('static', filename='img/orchestration_ui_01.jpg') }}">
+                                <source src="{{ url_for('static', filename='video/orchestration_protocolai_demo.mp4') }}" type="video/mp4">
                             </video>
+                            <div>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/orchestration_ui_01.jpg') }}">
+                                    <img src="{{ url_for('static', filename='img/orchestration_ui_01.jpg') }}" alt="AI Orchestration UI screenshot 1">
+                                </button>
+                                <button type="button" class="repo-widget__thumb" data-overlay-src="{{ url_for('static', filename='img/orchestration_ui_02.jpg') }}">
+                                    <img src="{{ url_for('static', filename='img/orchestration_ui_02.jpg') }}" alt="AI Orchestration UI screenshot 2">
+                                </button>
+                                <span class="repo-widget__media-hint">Click to enlarge</span>
+                            </div>
                         </div>
                         <p class="repo-widget__description">Local-first orchestration UI for reproducible AI runs: deterministic execution, approval gates, traceable artifacts (logs/reports), and KB-aware routing.</p>
                         <p>Personal R&amp;D on applying scaling through standardization and variability control.</p>
@@ -473,7 +483,7 @@
             </div>
 
             <!-- Realtime FaceFX (new row) -->
-            <div class="window" data-id="faceghosting" style="left: 391.25px; top: 1693.13px; width: 600px; height: 560px; z-index: 146;" data-x="391.25" data-y="1693.13">
+            <div class="window" data-id="faceghosting" style="left: 391.25px; top: 1703.13px; width: 600px; height: 560px; z-index: 146;" data-x="391.25" data-y="1703.13">
                 <div class="widget">
                     <div class="widget__title">Realtime FaceFX</div>
                     <div class="widget__body repo-widget">
@@ -515,7 +525,7 @@
                 </div>
             </div>
             <!-- Photogrammetry Specular Cleaner (right column, under SmallSR) -->
-            <div class="window" data-id="specular-cleaner" style="left: 1000.75px; top: 1541.13px; width: 602.5px; height: 495.625px; z-index: 156;" data-x="1000.75" data-y="1541.13">
+            <div class="window" data-id="specular-cleaner" style="left: 1000.75px; top: 1551.13px; width: 602.5px; height: 495.625px; z-index: 156;" data-x="1000.75" data-y="1551.13">
                 <div class="widget">
                     <div class="widget__title">Photogrammetry Specular Cleaner</div>
                     <div class="widget__body repo-widget">

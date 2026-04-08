@@ -223,13 +223,15 @@ button:disabled {
 }
 
 .links-widget a {
-  color: var(--accent);
+  color: #c7d2e7;
   text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
   transition: color 0.15s;
 }
 
 .links-widget a:hover {
-  color: var(--accent-strong);
+  color: #eef3ff;
   text-decoration: underline;
 }
 
@@ -335,15 +337,29 @@ button:disabled {
 }
 
 .repo-widget__actions a {
-  color: var(--accent);
+  color: #c7d2e7;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 500;
   transition: color 0.15s;
 }
 
 .repo-widget__actions a:hover {
-  color: var(--accent-strong);
+  color: #eef3ff;
   text-decoration: underline;
+}
+
+.repo-widget__section a {
+  color: #c7d2e7;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+
+.repo-widget__section a:hover {
+  color: #eef3ff;
 }
 
 /* Image overlay */
@@ -547,8 +563,9 @@ button:disabled {
 
 .window[data-id="jetson-yolo"] .jetson-yolo__video-pair {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
+  align-items: flex-start;
 }
 
 .window[data-id="jetson-yolo"] .jetson-yolo__video-item {
